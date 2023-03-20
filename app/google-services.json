@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "231949013256",
+    "project_id": "bojangles-application",
+    "storage_bucket": "bojangles-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231949013256:android:2447d9eda8911906105cbd",
+        "android_client_info": {
+          "package_name": "com.example.bojanglesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231949013256-io92cs3ga4tqmn6vv88bh63b9su28udl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_HlsZF7yBUrs0lYrLiw_Y_yD747LAGZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231949013256-io92cs3ga4tqmn6vv88bh63b9su28udl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
