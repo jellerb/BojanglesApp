@@ -16,20 +16,20 @@
         android:textColor="#CE191B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/noAccountTextView" />
 
     <ImageView
         android:id="@+id/bojanglesLogoImage"
         android:layout_width="396dp"
         android:layout_height="128dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/bojangles_shadow_masterbrandmark_1c_pms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/bojangles_shadow_masterbrandmark_1c_pms" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonLogin"
@@ -67,7 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="@string/email_label"
@@ -80,7 +80,7 @@
         tools:ignore="VisualLintTextFieldSize" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/noAccountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
