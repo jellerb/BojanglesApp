@@ -29,9 +29,15 @@ public class MenuFragment extends Fragment {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMenuBinding.inflate(inflater, container, false);
-        return binding.getRoot();    }
+        return binding.getRoot();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

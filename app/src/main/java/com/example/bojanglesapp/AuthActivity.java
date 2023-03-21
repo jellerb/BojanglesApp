@@ -129,14 +129,14 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     public void goToMenu(FirebaseUser firebaseUser) {
-//        firebaseFirestore
-//                .collection("Users")
-//                .document(firebaseUser.getDisplayName());
-//
-//        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-//        intent.putExtra("user", firebaseUser);
-//
-//        startActivity(intent);
-//        finish();
+        firebaseFirestore
+                .collection("Users")
+                .document(firebaseUser.getDisplayName());
+
+        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+        intent.putExtra("user", firebaseUser);
+
+        startActivity(intent);
+        finish();
     }
 }

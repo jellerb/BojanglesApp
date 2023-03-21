@@ -11,4 +11,6 @@
     <string name="sign_up_label">Sign Up</string>
     <string name="no_account_prompt">Don\'t have an account?</string>
     <string name="menu_label">Menu</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
 </resources>
