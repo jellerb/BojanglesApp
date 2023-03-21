@@ -5,65 +5,72 @@
 
 package com.example.bojanglesapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreateAccountFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.bojanglesapp.databinding.FragmentCreateAccountBinding;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class CreateAccountFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CreateAccountFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateAccountFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CreateAccountFragment newInstance(String param1, String param2) {
-        CreateAccountFragment fragment = new CreateAccountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    FragmentCreateAccountBinding binding;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_account, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentCreateAccountBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.buttonCancel.setOnClickListener(v -> mListener.goToLogin());
+
+        binding.buttonSignup.setOnClickListener(v -> {
+            String name = binding.editTextCreateName.getText().toString();
+            String email = binding.editTextCreateEmail.getText().toString();
+            String password = binding.editTextCreatePassword.getText().toString();
+
+            if (email.isEmpty()) {
+                Toast.makeText(getContext(), "Email is required", Toast.LENGTH_SHORT).show();
+            } else if (password.isEmpty()) {
+                Toast.makeText(getContext(), "Password is required", Toast.LENGTH_SHORT).show();
+            } else if (name.isEmpty()) {
+                Toast.makeText(getContext(), "Name is required", Toast.LENGTH_SHORT).show();
+            } else {
+                mListener.createAccount(name, email, password);
+            }
+        });
+
+        requireActivity().setTitle(R.string.sign_up_label);
+    }
+
+    CreateAccountListener mListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mListener = (CreateAccountListener) context;
+    }
+
+    interface CreateAccountListener {
+        void createAccount(String name, String email, String password);
+        void goToLogin();
     }
 }

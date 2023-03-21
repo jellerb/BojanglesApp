@@ -19,7 +19,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-
     User currentUser;
 
     @Override
@@ -27,28 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentUser = getIntent().getParcelableExtra("user");
+       // currentUser = getIntent().getParcelableExtra("user");
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.rootView, new LoginFragment())
+                .add(R.id.rootView, new MenuFragment())
                 .commit();
     }
-
-//    @Override
-//    public void logout() {
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("online", false);
-//
-//        // To keep things responsive, we intentionally ignore the response.
-//        firebaseFirestore
-//                .collection("Users")
-//                .document(currentUser.getUserId())
-//                .update(data);
-//
-//        Intent intent = new Intent(MainActivity.this, AuthActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
-
-
 }
