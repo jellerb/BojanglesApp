@@ -39,10 +39,8 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.rootView, new LoginFragment())
                     .commit();
-
             return;
         }
-
         goToMenu(firebaseUser);
     }
 
@@ -108,7 +106,6 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
                 }
 
                 Map<String, Object> data = new HashMap<>();
-                data.put("online", true);
                 data.put("displayName", firebaseUser.getDisplayName());
 
                 firebaseFirestore

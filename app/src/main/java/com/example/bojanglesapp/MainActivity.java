@@ -10,26 +10,38 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener {
 
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    User currentUser;
+    FirebaseUser currentUser;
+    final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // currentUser = getIntent().getParcelableExtra("user");
+        currentUser = getIntent().getParcelableExtra("user");
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.rootView, new MenuFragment())
+                .commit();
+    }
+
+    @Override
+    public void logout() {
+        firebaseAuth.signOut();
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootView, new LoginFragment() )
                 .commit();
     }
 }
