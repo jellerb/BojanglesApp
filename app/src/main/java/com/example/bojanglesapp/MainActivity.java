@@ -18,7 +18,7 @@ import com.google.firebase.firestore.auth.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener {
+public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener {
 
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     FirebaseUser currentUser;
@@ -33,6 +33,15 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.rootView, new MenuFragment())
+                .commit();
+    }
+
+    @Override
+    public void editAccount(String email, String password, String creditCard) {
+
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.rootView, new LoginFragment())
                 .commit();
     }
 

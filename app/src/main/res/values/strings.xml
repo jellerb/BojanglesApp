@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">BojanglesApp</string>
     <string name="submit_label">Submit</string>
+    <string name="not_you">Not your account?</string>
+    <string name="edit">Submit Edit</string>
+    <string name="payment_label">Credit Card Number</string>
     <string name="cancel_label">Cancel</string>
     <string name="name_label">Full Name</string>
     <string name="email_label">Email</string>
@@ -13,4 +16,6 @@
     <string name="menu_label">Menu</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
