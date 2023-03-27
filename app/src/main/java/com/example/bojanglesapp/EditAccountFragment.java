@@ -60,7 +60,7 @@ public class EditAccountFragment extends Fragment {
     }
 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.navigation_menu, menu);
+        //inflater.inflate(R.menu.navigation_menu, menu);
     }
 
 
@@ -78,23 +78,20 @@ public class EditAccountFragment extends Fragment {
 
         //GETTING THE USER DOCUMENT DATA!!!!!!!!!!!!!!!
         DocumentReference docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-               if(task.isSuccessful()){
-                   DocumentSnapshot document = task.getResult();
-                   if (document.exists()){
-                       Log.d("whatever", "Document Data: "+ document.getData());
-                       currentPassword = document.get("Password").toString();
-                       currentPayment = document.get("Credit Card").toString();
+        docRef.get().addOnCompleteListener(task -> {
+           if(task.isSuccessful()){
+               DocumentSnapshot document = task.getResult();
+               if (document.exists()){
+                   Log.d("whatever", "Document Data: "+ document.getData());
+                   currentPassword = document.get("Password").toString();
+                   currentPayment = document.get("Credit Card").toString();
 
-                   } else {
-                       Log.d("whatever", "No such document");
-                   }
                } else {
-                   Log.d("whatever", "get failed with", task.getException());
+                   Log.d("whatever", "No such document");
                }
-            }
+           } else {
+               Log.d("whatever", "get failed with", task.getException());
+           }
         });
 
         binding.accountNameTextView.setText("Edit Account " + firebaseUser.getDisplayName());
@@ -106,7 +103,7 @@ public class EditAccountFragment extends Fragment {
             if(email.isEmpty()){
                 Toast.makeText(getContext(), "Email is empty using current email", Toast.LENGTH_SHORT).show();
                 //get current email from firestore
-                email = firebaseUser.getEmail().toString();
+                email = firebaseUser.getEmail();
 
             } else if(password.isEmpty()){
                 Toast.makeText(getContext(), "Password is empty using current password", Toast.LENGTH_SHORT).show();

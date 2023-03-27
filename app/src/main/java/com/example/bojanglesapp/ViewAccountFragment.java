@@ -5,7 +5,6 @@
 
 package com.example.bojanglesapp;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,27 +15,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bojanglesapp.databinding.FragmentMenuBinding;
+import com.example.bojanglesapp.databinding.FragmentViewAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MenuFragment extends Fragment {
+public class ViewAccountFragment extends Fragment {
 
-    FragmentMenuBinding binding;
+    FragmentViewAccountBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMenuBinding.inflate(inflater, container, false);
+        binding = FragmentViewAccountBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -44,18 +43,6 @@ public class MenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        requireActivity().setTitle(R.string.menu_label);
-    }
-
-    MenuListener mListener;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mListener = (MenuListener) context;
-    }
-
-    interface MenuListener {
-        void logout();
+        requireActivity().setTitle(R.string.my_account_label);
     }
 }

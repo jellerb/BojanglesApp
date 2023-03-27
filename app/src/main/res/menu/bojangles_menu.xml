@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/user_icon_foreground"
+        android:title="@string/my_account_label" />
+    <item
+        android:icon="@drawable/menu_box_icon_foreground"
+        android:title="@string/menu_label" />
+    <item
+        android:icon="@mipmap/logout_icon"
+        android:title="@string/logout_label" />
+</menu>
