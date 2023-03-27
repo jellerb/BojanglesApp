@@ -21,6 +21,8 @@
     <string name="email_empty_prompt">Please enter a valid email address</string>
     <string name="password_empty_prompt">Please enter a password</string>
     <string name="payment_empty_prompt">Please enter a valid form of payment</string>
+    <string name="document_menu">hOFJHyDCAuo4rlw6gWTc</string>
+    <string name="document_single_items">Ew10njX7C7COsHEBDdKk</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

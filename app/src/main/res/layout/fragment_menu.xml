@@ -8,27 +8,14 @@
     android:background="#FDDA02"
     tools:context=".MenuFragment">
 
-    <TextView
-        android:id="@+id/menuLabelText"
-        android:layout_width="167dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/menu_label"
-        android:textColor="#CE191B"
-        android:textSize="64sp"
-        android:textStyle="bold"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menuItemsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="411dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuLabelText" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/menu_row_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
