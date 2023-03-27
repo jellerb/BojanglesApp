@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
 
         currentUser = getIntent().getParcelableExtra("user");
 
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.viewAccountFragment:
+            case R.id.action_menuFragment_to_viewAccountFragment:
                 startActivity(new Intent(this, ViewAccountFragment.class));
                 return true;
             case R.id.menuFragment:

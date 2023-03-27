@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ViewAccountFragment extends Fragment {
 
-    FragmentViewAccountBinding binding;
+    com.example.bojanglesapp.databinding.FragmentViewAccountBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
