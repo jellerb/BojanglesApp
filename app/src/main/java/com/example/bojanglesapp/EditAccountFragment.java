@@ -31,50 +31,30 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
-
-
 public class EditAccountFragment extends Fragment {
 
     String currentPassword = "";
     String currentPayment = "";
-
-
     FragmentEditAccountBinding binding;
-
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-
-    public EditAccountFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
-
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        //inflater.inflate(R.menu.navigation_menu, menu);
-    }
-
-
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditAccountBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        requireActivity().setTitle("Edit Account");
+        requireActivity().setTitle(R.string.edit_account_label);
 
         //GETTING THE USER DOCUMENT DATA!!!!!!!!!!!!!!!
         DocumentReference docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
@@ -85,7 +65,6 @@ public class EditAccountFragment extends Fragment {
                    Log.d("whatever", "Document Data: "+ document.getData());
                    currentPassword = document.get("Password").toString();
                    currentPayment = document.get("Credit Card").toString();
-
                } else {
                    Log.d("whatever", "No such document");
                }
@@ -104,18 +83,14 @@ public class EditAccountFragment extends Fragment {
                 Toast.makeText(getContext(), R.string.email_empty_prompt, Toast.LENGTH_SHORT).show();
                 //get current email from firestore
                 email = firebaseUser.getEmail();
-
             } else if(password.isEmpty()){
                 Toast.makeText(getContext(), R.string.password_empty_prompt, Toast.LENGTH_SHORT).show();
                 //get current password from firestore
                 password = currentPassword;
-
             } else if(creditCard.isEmpty()){
                 Toast.makeText(getContext(), R.string.payment_empty_prompt, Toast.LENGTH_SHORT).show();
                 //get current payment from firestore
                 creditCard = currentPayment;
-
-
             }else {
                 mListener.editAccount(email, password, creditCard);
             }
