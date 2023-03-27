@@ -65,12 +65,13 @@ public class ViewAccountFragment extends Fragment {
         docRef.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 DocumentSnapshot document = task.getResult();
+
                 if (document.exists()){
                     Log.d("whatever", "Document Data: "+ document.getData());
-                    userEmail = document.get("Email").toString();
-                    userPassword = document.get("Password").toString();
-                    userPayment = document.get("Credit Card").toString();
-                    userPoints = document.get("Rewards Points").toString();
+                    userEmail = document.get("Email", String.class);
+                    userPassword = document.get("Password", String.class);
+                    userPayment = document.get("Credit Card", String.class);
+                    userPoints = document.get("Rewards Points", String.class);
 
                     userPointsInt =Integer.parseInt(userPoints);
 

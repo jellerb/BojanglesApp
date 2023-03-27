@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             case R.id.action_edit_my_account:
                 startActivity(new Intent(this, EditAccountFragment.class));
                 return true;
+            case R.id.action_logout:
+                logout();
+                //startActivity(new Intent(this, EditAccountFragment.class));
+                //return true;
 //            //case logout
             default:
                 return super.onOptionsItemSelected(item);
