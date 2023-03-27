@@ -73,7 +73,7 @@ public class EditAccountFragment extends Fragment {
            }
         });
 
-        binding.accountNameTextView.setText(R.string.edit_account_label + " " + firebaseUser.getDisplayName());
+        binding.accountNameTextView.setText("Edit Account " + firebaseUser.getDisplayName());
         binding.buttonSubmitEdit.setOnClickListener(v -> {
             String email = binding.editTextAccountEmail.getText().toString();
             String password = binding.editTextAccountPassword.getText().toString();
@@ -82,15 +82,22 @@ public class EditAccountFragment extends Fragment {
             if(email.isEmpty()){
                 Toast.makeText(getContext(), R.string.email_empty_prompt, Toast.LENGTH_SHORT).show();
                 //get current email from firestore
-                email = firebaseUser.getEmail();
+                email = firebaseUser.getEmail().toString();
+                docRef.update("Email", email);
+
             } else if(password.isEmpty()){
                 Toast.makeText(getContext(), R.string.password_empty_prompt, Toast.LENGTH_SHORT).show();
                 //get current password from firestore
                 password = currentPassword;
+                docRef.update("Password", password);
+
             } else if(creditCard.isEmpty()){
                 Toast.makeText(getContext(), R.string.payment_empty_prompt, Toast.LENGTH_SHORT).show();
                 //get current payment from firestore
                 creditCard = currentPayment;
+                docRef.update("Credit Card", currentPayment);
+
+
             }else {
                 mListener.editAccount(email, password, creditCard);
             }

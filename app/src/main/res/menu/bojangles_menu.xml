@@ -5,6 +5,9 @@
         android:icon="@drawable/user_icon_foreground"
         android:title="@string/my_account_label" />
     <item
+        android:icon="@drawable/user_icon_foreground"
+        android:title="@string/edit_account_label" />
+    <item
         android:icon="@drawable/menu_box_icon_foreground"
         android:title="@string/menu_label" />
     <item
