@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             case R.id.menuFragment:
                 startActivity(new Intent(this, MenuFragment.class));
                 return true;
+//            case R.id.:
+//                startActivity(new Intent(this, EditAccountFragment.class));
+//                return true;
             //case logout
             default:
                 return super.onOptionsItemSelected(item);
@@ -65,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void editAccount(String email, String password, String creditCard) {
+        //logout user after editing account
+        firebaseAuth.signOut();
 
 
         getSupportFragmentManager().beginTransaction()
