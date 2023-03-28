@@ -6,6 +6,7 @@
     <string name="payment_label">Credit Card Number</string>
     <string name="cancel_label">Cancel</string>
     <string name="name_label">Full Name</string>
+    <string name="Reward_label">Rewards</string>
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="login_label">Login</string>
@@ -15,6 +16,7 @@
     <string name="no_account_prompt">Don\'t have an account?</string>
     <string name="menu_label">Menu</string>
     <string name="nav_open">Open</string>
+    <string name="error_label">Error</string>
     <string name="nav_close">Close</string>
     <string name="my_account_label">My Account</string>
     <string name="edit_account_label">Edit Account</string>

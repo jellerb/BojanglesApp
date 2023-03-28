@@ -107,6 +107,8 @@ public class AuthActivity extends AppCompatActivity implements LoginFragment.Log
 
                 Map<String, Object> data = new HashMap<>();
                 data.put("displayName", firebaseUser.getDisplayName());
+                data.put("Email", email);
+                data.put("Password", password);
 
                 firebaseFirestore
                         .collection("Users")

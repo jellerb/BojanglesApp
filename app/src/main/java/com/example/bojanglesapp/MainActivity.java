@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener {
+public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener {
 
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     FirebaseUser currentUser;
@@ -51,16 +51,20 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_menuFragment_to_viewAccountFragment:
+            case R.id.action_view_my_account:
                 startActivity(new Intent(this, ViewAccountFragment.class));
                 return true;
-            case R.id.menuFragment:
+            case R.id.action_view_menu:
                 startActivity(new Intent(this, MenuFragment.class));
                 return true;
-//            case R.id.:
-//                startActivity(new Intent(this, EditAccountFragment.class));
-//                return true;
-            //case logout
+            case R.id.action_edit_my_account:
+                startActivity(new Intent(this, EditAccountFragment.class));
+                return true;
+            case R.id.action_logout:
+                logout();
+                //startActivity(new Intent(this, EditAccountFragment.class));
+                //return true;
+//            //case logout
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -73,7 +77,15 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.rootView, new LoginFragment())
+                .replace(R.id.rootView, new LoginFragment())
+                .commit();
+    }
+
+    @Override
+    public void goToEditAccount(String email, String password, String creditCard) {
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootView, new EditAccountFragment())
                 .commit();
     }
 
