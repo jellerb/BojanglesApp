@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_edit_my_account"
@@ -19,6 +18,5 @@
         android:id="@+id/action_logout"
         android:icon="@mipmap/logout_icon"
         android:title="@string/logout_label" />
-    
 
 </menu>
