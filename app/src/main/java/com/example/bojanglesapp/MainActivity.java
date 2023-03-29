@@ -10,12 +10,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser;
+    DrawerLayout mDrawer;
+    NavigationView nvDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +48,94 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
         currentUser = mAuth.getCurrentUser();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        nvDrawer.setItemIconTintList(null);
+        nvDrawer.setHovered(true);
+        nvDrawer.setItemIconSize(200);
+        nvDrawer.setItemHorizontalPadding(0);
+        nvDrawer.setItemIconPadding(0);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
+        setupDrawerContent(nvDrawer);
+
         if (mAuth.getCurrentUser() == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.rootView, new LoginFragment())
+                    .add(R.id.flContent, new LoginFragment())
                     .commit();
         } else {
+            View headerView = nvDrawer.getHeaderView(0);
+            TextView userName = (TextView) headerView.findViewById(R.id.userName);
+            userName.setText(currentUser.getDisplayName());
+            TextView userEmail = (TextView) headerView.findViewById(R.id.userEmail);
+            userEmail.setText(currentUser.getEmail());
+            Button button = (Button) headerView.findViewById(R.id.logoutButton);
+            button.setOnClickListener(v -> logout());
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.rootView, new MenuFragment())
+                    .add(R.id.flContent, new MenuFragment())
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            mDrawer.openDrawer(GravityCompat.START);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    selectDrawerItem(menuItem);
+                    return true;
+                }
+        );
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        Fragment fragment = null;
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.food_menu:
+                fragmentClass = MenuFragment.class;
+                break;
+            case R.id.my_account:
+                fragmentClass = ViewAccountFragment.class;
+                break;
+            case R.id.edit_account:
+                fragmentClass = EditAccountFragment.class;
+                break;
+            default:
+                fragmentClass = MenuFragment.class;
+        }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
     }
 
     @Override
