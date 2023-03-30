@@ -7,6 +7,7 @@ package com.example.bojanglesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,18 +68,23 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         setupDrawerContent(nvDrawer);
 
         if (mAuth.getCurrentUser() == null) {
+            // hide action bar
+            getSupportActionBar().hide();
+            // go to login page
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.flContent, new LoginFragment())
                     .commit();
         } else {
+            // set user info in nav menu
             View headerView = nvDrawer.getHeaderView(0);
             TextView userName = (TextView) headerView.findViewById(R.id.userName);
             userName.setText(currentUser.getDisplayName());
             TextView userEmail = (TextView) headerView.findViewById(R.id.userEmail);
             userEmail.setText(currentUser.getEmail());
+            // show logout button
             Button button = (Button) headerView.findViewById(R.id.logoutButton);
             button.setOnClickListener(v -> logout());
-
+            // go to menu page
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.flContent, new MenuFragment())
                     .commit();
@@ -158,8 +164,19 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void logout() {
+        // sign out of firebase
         mAuth.signOut();
-
+        // remove user information from nav menu
+        View headerView = nvDrawer.getHeaderView(0);
+        TextView userName = (TextView) headerView.findViewById(R.id.userName);
+        userName.setText(null);
+        TextView userEmail = (TextView) headerView.findViewById(R.id.userEmail);
+        userEmail.setText(null);
+        // close drawer menu
+        mDrawer.close();
+        // hide action bar / menu
+        getSupportActionBar().hide();
+        // go to login page
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootView, new LoginFragment() )
                 .commit();

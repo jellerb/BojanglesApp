@@ -29,8 +29,9 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mListener = (LoginListener) context;
     }
 
     @Override
@@ -62,12 +63,6 @@ public class LoginFragment extends Fragment {
     }
 
     LoginListener mListener;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mListener = (LoginListener) context;
-    }
 
     interface LoginListener {
         void authenticate(String email, String password);
