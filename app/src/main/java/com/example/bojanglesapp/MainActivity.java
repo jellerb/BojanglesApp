@@ -7,24 +7,15 @@ package com.example.bojanglesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,8 +30,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser;
-    DrawerLayout mDrawer;
-    NavigationView nvDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,109 +38,39 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
         currentUser = mAuth.getCurrentUser();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        nvDrawer.setItemIconTintList(null);
-        nvDrawer.setHovered(true);
-        nvDrawer.setItemIconSize(200);
-        nvDrawer.setItemHorizontalPadding(0);
-        nvDrawer.setItemIconPadding(0);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
-        setupDrawerContent(nvDrawer);
-
         if (mAuth.getCurrentUser() == null) {
-            // hide action bar
-            getSupportActionBar().hide();
-            // go to login page
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.flContent, new LoginFragment())
+                    .add(R.id.rootView, new LoginFragment())
                     .commit();
         } else {
-            // set user info in nav menu
-            View headerView = nvDrawer.getHeaderView(0);
-            TextView userName = (TextView) headerView.findViewById(R.id.userName);
-            userName.setText(currentUser.getDisplayName());
-            TextView userEmail = (TextView) headerView.findViewById(R.id.userEmail);
-            userEmail.setText(currentUser.getEmail());
-            // show logout button
-            Button button = (Button) headerView.findViewById(R.id.logoutButton);
-            button.setOnClickListener(v -> logout());
-            // go to menu page
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.flContent, new MenuFragment())
+                    .add(R.id.rootView, new MenuFragment())
                     .commit();
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            mDrawer.openDrawer(GravityCompat.START);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    public void editAccount(User user) {
+        firebaseFirestore.collection("Users")
+                        .document(user.getU_id())
+                                .set(user)
+                                        .addOnCompleteListener(task -> {
+                                            if(!task.isSuccessful()){
+                                               Exception exception = task.getException();
+                                               assert exception != null;
+                                               new AlertDialog.Builder(MainActivity.this)
+                                                       .setTitle("Error")
+                                                       .setMessage(exception.getLocalizedMessage())
+                                                       .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
+                                                       .show();
+                                               return;
+                                            }
+                                            getSupportFragmentManager().beginTransaction()
+                                                    .replace(R.id.rootView, new LoginFragment())
+                                                    .addToBackStack(null)
+                                                    .commit();
+                                        });
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                menuItem -> {
-                    selectDrawerItem(menuItem);
-                    return true;
-                }
-        );
-    }
-
-    public void selectDrawerItem(MenuItem menuItem) {
-        Fragment fragment = null;
-        Class fragmentClass;
-        switch(menuItem.getItemId()) {
-            case R.id.food_menu:
-                fragmentClass = MenuFragment.class;
-                break;
-            case R.id.my_account:
-                fragmentClass = ViewAccountFragment.class;
-                break;
-            case R.id.edit_account:
-                fragmentClass = EditAccountFragment.class;
-                break;
-            default:
-                fragmentClass = MenuFragment.class;
-        }
-
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
-    }
-
-    @Override
-    public void editAccount(String email, String password, String creditCard) {
-        //logout user after editing account
-        mAuth.signOut();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rootView, new LoginFragment())
-                .commit();
     }
 
     @Override
@@ -162,21 +81,11 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 .commit();
     }
 
+
     @Override
     public void logout() {
-        // sign out of firebase
         mAuth.signOut();
-        // remove user information from nav menu
-        View headerView = nvDrawer.getHeaderView(0);
-        TextView userName = (TextView) headerView.findViewById(R.id.userName);
-        userName.setText(null);
-        TextView userEmail = (TextView) headerView.findViewById(R.id.userEmail);
-        userEmail.setText(null);
-        // close drawer menu
-        mDrawer.close();
-        // hide action bar / menu
-        getSupportActionBar().hide();
-        // go to login page
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootView, new LoginFragment() )
                 .commit();

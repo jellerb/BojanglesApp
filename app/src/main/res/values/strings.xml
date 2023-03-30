@@ -20,9 +20,7 @@
     <string name="nav_close">Close</string>
     <string name="my_account_label">My Account</string>
     <string name="edit_account_label">Edit Account</string>
-    <string name="email_empty_prompt">Please enter a valid email address</string>
-    <string name="password_empty_prompt">Please enter a password</string>
-    <string name="payment_empty_prompt">Please enter a valid form of payment</string>
+    <string name="empty_prompt">Please enter all fields even if they are not being changed</string>
     <string name="document_menu">hOFJHyDCAuo4rlw6gWTc</string>
     <string name="document_single_items">Ew10njX7C7COsHEBDdKk</string>
 
