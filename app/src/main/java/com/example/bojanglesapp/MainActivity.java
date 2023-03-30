@@ -50,13 +50,27 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     }
 
     @Override
-    public void editAccount(String email, String password, String creditCard) {
-        //logout user after editing account
-        mAuth.signOut();
+    public void editAccount(User user) {
+        firebaseFirestore.collection("Users")
+                        .document(user.getU_id())
+                                .set(user)
+                                        .addOnCompleteListener(task -> {
+                                            if(!task.isSuccessful()){
+                                               Exception exception = task.getException();
+                                               assert exception != null;
+                                               new AlertDialog.Builder(MainActivity.this)
+                                                       .setTitle("Error")
+                                                       .setMessage(exception.getLocalizedMessage())
+                                                       .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
+                                                       .show();
+                                               return;
+                                            }
+                                            getSupportFragmentManager().beginTransaction()
+                                                    .replace(R.id.rootView, new LoginFragment())
+                                                    .addToBackStack(null)
+                                                    .commit();
+                                        });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rootView, new LoginFragment())
-                .commit();
     }
 
     @Override
@@ -66,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 .replace(R.id.rootView, new EditAccountFragment())
                 .commit();
     }
+
 
     @Override
     public void logout() {
