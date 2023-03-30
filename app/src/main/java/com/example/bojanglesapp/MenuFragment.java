@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -36,8 +37,6 @@ public class MenuFragment extends Fragment {
 
     FragmentMenuBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private FirestoreRecyclerAdapter<MenuItem, MenuItemHolder> adapter;
 
@@ -59,16 +58,15 @@ public class MenuFragment extends Fragment {
 
         requireActivity().setTitle(R.string.menu_label);
 
+        binding.menuItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         Query query = firebaseFirestore
-                .collection("Menu")
-                .document("hOFJHyDCAuo4rlw6gWTc")
-                .collection("SingleItems")
-                .orderBy("itemName", Query.Direction.DESCENDING);
+                .collection("MenuV2")
+                .orderBy("name", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<MenuItem> options = new FirestoreRecyclerOptions.Builder<MenuItem>()
                 .setQuery(query, MenuItem.class)
                 .build();
-
 
         adapter = new FirestoreRecyclerAdapter<MenuItem, MenuItemHolder>(options) {
             @Override
@@ -86,38 +84,26 @@ public class MenuFragment extends Fragment {
         };
 
         binding.menuItemsRecyclerView.setAdapter(adapter);
-
-
-
-
-
-
-
     }
 
     public class MenuItemHolder extends RecyclerView.ViewHolder {
         private final View view;
-
 
         public MenuItemHolder(@NonNull View itemView) {
             super(itemView);
             this.view = itemView;
         }
 
-        void setItemName(String itemName) {
+        void setItemName(String name) {
             TextView textView = view.findViewById(R.id.textViewMenuItemName);
-            textView.setText(itemName);
+            textView.setText(name);
         }
 
-        void setItemPrice(double itemPrice) {
+        void setItemPrice(double price) {
             TextView textView = view.findViewById(R.id.textViewMenuItemPrice);
-            textView.setText(String.valueOf(itemPrice));
+            textView.setText(String.valueOf(price));
         }
-
     }
-
-
-
     MenuListener mListener;
 
     @Override

@@ -29,6 +29,12 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mListener = (LoginListener) context;
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -37,6 +43,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
         binding.buttonLogin.setOnClickListener(v -> {
             String email = binding.editTextEmail.getText().toString();
@@ -56,12 +63,6 @@ public class LoginFragment extends Fragment {
     }
 
     LoginListener mListener;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mListener = (LoginListener) context;
-    }
 
     interface LoginListener {
         void authenticate(String email, String password);
