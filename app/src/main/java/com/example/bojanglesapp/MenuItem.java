@@ -2,9 +2,9 @@ package com.example.bojanglesapp;
 
 public class MenuItem implements Comparable{
 
-    public String itemName;
-    public double itemPrice;
-    public String[] ingredients;
+    public String name;
+    public double price;
+    public String ingredients;
     public int calories;
 
 
@@ -12,36 +12,36 @@ public class MenuItem implements Comparable{
 
 
 
-    public MenuItem(String itemName, double itemPrice, String[] ingredients, int calories) {
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
+    public MenuItem(String itemName, double itemPrice, String ingredients, int calories) {
+        this.name = itemName;
+        this.price = itemPrice;
         this.ingredients = ingredients;
         this.calories = calories;
     }
 
     public String getItemName() {
-        return itemName;
+        return name;
     }
 
-    public MenuItem setItemName(String itemName) {
-        this.itemName = itemName;
+    public MenuItem setItemName(String name) {
+        this.name = name;
         return this;
     }
 
     public double getItemPrice() {
-        return itemPrice;
+        return price;
     }
 
-    public MenuItem setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
+    public MenuItem setItemPrice(double price) {
+        this.price = price;
         return this;
     }
 
-    public String[] getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public MenuItem setIngredients(String[] ingredients) {
+    public MenuItem setIngredients(String ingredients) {
         this.ingredients = ingredients;
         return this;
     }

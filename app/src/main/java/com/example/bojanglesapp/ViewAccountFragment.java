@@ -73,7 +73,7 @@ public class ViewAccountFragment extends Fragment {
                     userPayment = document.get("Credit Card", String.class);
                     userPoints = document.get("Rewards Points", String.class);
 
-                    userPointsInt =Integer.parseInt(userPoints);
+                    //userPointsInt =Integer.parseInt(userPoints);
 
                 } else {
                     Log.d("whatever", "No such document");
@@ -83,7 +83,7 @@ public class ViewAccountFragment extends Fragment {
             }
         });
 
-        binding.accountNameTextViewAccount.setText(firebaseUser.getDisplayName().toString());
+        binding.accountNameTextViewAccount.setText(firebaseUser.getDisplayName());
         binding.textViewUserEmail.setText(userEmail);
         binding.textViewUserPassword.setText(userPassword);
         binding.textViewUserPayment.setText(userPayment);

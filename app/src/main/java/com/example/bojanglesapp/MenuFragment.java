@@ -107,6 +107,18 @@ public class MenuFragment extends Fragment {
     MenuListener mListener;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mListener = (MenuListener) context;
