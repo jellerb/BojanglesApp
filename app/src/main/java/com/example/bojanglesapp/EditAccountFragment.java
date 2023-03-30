@@ -35,6 +35,7 @@ public class EditAccountFragment extends Fragment {
 
     String currentPassword = "";
     String currentPayment = "";
+    String currentEmail = "";
     FragmentEditAccountBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser();
@@ -57,14 +58,28 @@ public class EditAccountFragment extends Fragment {
         requireActivity().setTitle(R.string.edit_account_label);
 
         //GETTING THE USER DOCUMENT DATA!!!!!!!!!!!!!!!
+        User user = new User();
+
         DocumentReference docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
         docRef.get().addOnCompleteListener(task -> {
            if(task.isSuccessful()){
                DocumentSnapshot document = task.getResult();
                if (document.exists()){
                    Log.d("whatever", "Document Data: "+ document.getData());
+
+                   currentEmail = document.get("Email").toString();
                    currentPassword = document.get("Password").toString();
-                   currentPayment = document.get("Credit Card").toString();
+                   currentPayment = document.get("Payment").toString();
+
+
+                   //setting the user to the CURRENT data from firestore
+
+                   user.setEmail(document.get("Email").toString());
+                   user.setName(firebaseUser.getDisplayName());
+                   user.setPayment(document.get("Credit Card").toString());
+                   user.setPassword(document.get("Password").toString());
+
+
                } else {
                    Log.d("whatever", "No such document");
                }
@@ -73,33 +88,22 @@ public class EditAccountFragment extends Fragment {
            }
         });
 
-        binding.accountNameTextView.setText("Edit Account " + firebaseUser.getDisplayName());
+
+        binding.accountNameTextView.setText("Edit Account " + user.getName());
         binding.buttonSubmitEdit.setOnClickListener(v -> {
             String email = binding.editTextAccountEmail.getText().toString();
             String password = binding.editTextAccountPassword.getText().toString();
             String creditCard = binding.editTextAccountPayment.getText().toString();
 
-            if(email.isEmpty()){
-                Toast.makeText(getContext(), R.string.email_empty_prompt, Toast.LENGTH_SHORT).show();
-                //get current email from firestore
-                email = firebaseUser.getEmail().toString();
-                docRef.update("Email", email);
+            if(email.isEmpty() || password.isEmpty() || creditCard.isEmpty()){
+                Toast.makeText(getContext(), R.string.empty_prompt, Toast.LENGTH_SHORT).show();
 
-            } else if(password.isEmpty()){
-                Toast.makeText(getContext(), R.string.password_empty_prompt, Toast.LENGTH_SHORT).show();
-                //get current password from firestore
-                password = currentPassword;
-                docRef.update("Password", password);
+            } else {
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setPayment(creditCard);
 
-            } else if(creditCard.isEmpty()){
-                Toast.makeText(getContext(), R.string.payment_empty_prompt, Toast.LENGTH_SHORT).show();
-                //get current payment from firestore
-                creditCard = currentPayment;
-                docRef.update("Credit Card", currentPayment);
-
-
-            }else {
-                mListener.editAccount(email, password, creditCard);
+                mListener.editAccount(user);
             }
         });
         binding.buttonLogout.setOnClickListener(v -> mListener.logout());
@@ -115,7 +119,7 @@ public class EditAccountFragment extends Fragment {
         mListener = (EditAccountListener) context;
     }
     interface EditAccountListener {
-        void editAccount(String email, String password, String creditCard);
+        void editAccount(User user);
         void logout();
     }
 }
