@@ -33,10 +33,6 @@ public class ViewAccountFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser();
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    String userPassword = "";
-    String userEmail = "";
-    String userPayment = "";
-    double userPoints;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +73,7 @@ public class ViewAccountFragment extends Fragment {
         });
 
         binding.buttonGoToEditAccount.setOnClickListener(v -> {
-            mListener.goToEditAccount(userEmail, userPassword, userPayment, userPoints);
+            mListener.goToEditAccount();
          } //end of the buttonClickListener
         );
 
@@ -93,7 +89,7 @@ public class ViewAccountFragment extends Fragment {
         mListener = (ViewAccountFragment.ViewAccountListener) context;
     }
     interface ViewAccountListener {
-        void goToEditAccount(String email, String password, String payment, double userPoints);
+        void goToEditAccount();
         void logout();
     }
 

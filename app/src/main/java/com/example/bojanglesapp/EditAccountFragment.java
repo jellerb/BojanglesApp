@@ -24,23 +24,21 @@ import android.widget.Toast;
 import com.example.bojanglesapp.databinding.FragmentEditAccountBinding;
 import com.example.bojanglesapp.databinding.FragmentLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EditAccountFragment extends Fragment {
-
-    String currentPassword = "";
-    String currentPayment = "";
-    String currentEmail = "";
     FragmentEditAccountBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,58 +55,111 @@ public class EditAccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         requireActivity().setTitle(R.string.edit_account_label);
 
-        //GETTING THE USER DOCUMENT DATA!!!!!!!!!!!!!!!
-        User user = new User();
-
-        DocumentReference docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
-        docRef.get().addOnCompleteListener(task -> {
-           if(task.isSuccessful()){
-               DocumentSnapshot document = task.getResult();
-               if (document.exists()){
-                   Log.d("whatever", "Document Data: "+ document.getData());
-
-                   currentEmail = document.get("Email").toString();
-                   currentPassword = document.get("Password").toString();
-                   currentPayment = document.get("Payment").toString();
-
-
-                   //setting the user to the CURRENT data from firestore
-
-                   user.setEmail(document.get("Email").toString());
-                   user.setName(firebaseUser.getDisplayName());
-                   user.setPayment(document.get("Credit Card").toString());
-                   user.setPassword(document.get("Password").toString());
-
-
-               } else {
-                   Log.d("whatever", "No such document");
-               }
-           } else {
-               Log.d("whatever", "get failed with", task.getException());
-           }
-        });
-
-
-        binding.accountNameTextView.setText("Edit Account " + user.getName());
         binding.buttonSubmitEdit.setOnClickListener(v -> {
+            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
             String email = binding.editTextAccountEmail.getText().toString();
             String password = binding.editTextAccountPassword.getText().toString();
-            String creditCard = binding.editTextAccountPayment.getText().toString();
+            String payment = binding.editTextAccountPayment.getText().toString();
 
-            if(email.isEmpty() || password.isEmpty() || creditCard.isEmpty()){
-                Toast.makeText(getContext(), R.string.empty_prompt, Toast.LENGTH_SHORT).show();
-
+            // if nothing is entered, go to view account
+            if (email.isEmpty() && password.isEmpty() && payment.isEmpty()) {
+                Log.d("demo", "no info entered");
+                mListener.goToViewAccount();
             } else {
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setPayment(creditCard);
+                // if new email is entered, update it
+                if (email.isEmpty()) {
+                    Log.d("demo", "no email entered");
+                } else {
+                    firebaseUser.updateEmail(email)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("demo", "User email address updated.");
+                                } else {
+                                    Log.d("demo", "User email NOT updated.");
+                                }
+                            });
+                }
 
-                mListener.editAccount(user);
+                //if new password is entered, update it
+                if (password.isEmpty()) {
+                    Log.d("demo", "no password entered");
+                } else {
+                    firebaseUser.updatePassword(password)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("demo", "User password updated.");
+                                } else {
+                                    Log.d("demo", "User password NOT updated.");
+                                }
+                            });
+                }
+
+                // if new payment is entered, update it
+                if (payment.isEmpty()) {
+                    Log.d("demo", "no payment entered");
+                } else {
+                    DocumentReference userRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+                    userRef
+                            .update("Payment", payment)
+                            .addOnSuccessListener(unused -> Log.d("demo", "User payment updated."))
+                            .addOnFailureListener(e -> Log.d("demo", "Error updating payment.", e));
+                }
             }
-        });
-        binding.buttonLogout.setOnClickListener(v -> mListener.logout());
 
-        requireActivity().setTitle(R.string.login_label);
+            // after updating the user, go to view account
+            mListener.goToViewAccount();
+        });
+//        //GETTING THE USER DOCUMENT DATA!!!!!!!!!!!!!!!
+//        User user = new User();
+//
+//        DocumentReference docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+//        docRef.get().addOnCompleteListener(task -> {
+//           if(task.isSuccessful()){
+//               DocumentSnapshot document = task.getResult();
+//               if (document.exists()){
+//                   Log.d("whatever", "Document Data: "+ document.getData());
+//
+////                   currentEmail = document.get("Email").toString();
+////                   currentPassword = document.get("Password").toString();
+////                   currentPayment = document.get("Payment").toString();
+//
+//
+//                   //setting the user to the CURRENT data from firestore
+//
+//                   user.setEmail(document.get("Email").toString());
+//                   user.setName(firebaseUser.getDisplayName());
+//                   user.setPayment(document.get("Credit Card").toString());
+//                   user.setPassword(document.get("Password").toString());
+//
+//
+//               } else {
+//                   Log.d("whatever", "No such document");
+//               }
+//           } else {
+//               Log.d("whatever", "get failed with", task.getException());
+//           }
+//        });
+//
+//
+//        binding.accountNameTextView.setText("Edit Account " + user.getName());
+//        binding.buttonSubmitEdit.setOnClickListener(v -> {
+//            String email = binding.editTextAccountEmail.getText().toString();
+//            String password = binding.editTextAccountPassword.getText().toString();
+//            String creditCard = binding.editTextAccountPayment.getText().toString();
+//
+//            if(email.isEmpty() || password.isEmpty() || creditCard.isEmpty()){
+//                Toast.makeText(getContext(), R.string.empty_prompt, Toast.LENGTH_SHORT).show();
+//
+//            } else {
+//                user.setEmail(email);
+//                user.setPassword(password);
+//                user.setPayment(creditCard);
+//
+//                mListener.editAccount();
+//            }
+//        });
+        binding.buttonLogout.setOnClickListener(v -> mListener.logout());
     }
 
     EditAccountFragment.EditAccountListener mListener;
@@ -119,7 +170,8 @@ public class EditAccountFragment extends Fragment {
         mListener = (EditAccountListener) context;
     }
     interface EditAccountListener {
-        void editAccount(User user);
+        void goToViewAccount();
+        void editAccount();
         void logout();
     }
 }

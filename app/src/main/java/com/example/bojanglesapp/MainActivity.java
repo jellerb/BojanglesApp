@@ -144,37 +144,42 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     }
 
     @Override
-    public void editAccount(User user) {
-        firebaseFirestore.collection("Users")
-                        .document(user.getU_id())
-                                .set(user)
-                                        .addOnCompleteListener(task -> {
-                                            if(!task.isSuccessful()){
-                                               Exception exception = task.getException();
-                                               assert exception != null;
-                                               new AlertDialog.Builder(MainActivity.this)
-                                                       .setTitle("Error")
-                                                       .setMessage(exception.getLocalizedMessage())
-                                                       .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
-                                                       .show();
-                                               return;
-                                            }
-                                            getSupportFragmentManager().beginTransaction()
-                                                    .replace(R.id.flContent, new LoginFragment())
-                                                    .addToBackStack(null)
-                                                    .commit();
-                                        });
+    public void goToViewAccount() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, new ViewAccountFragment())
+                .commit();
+    }
+
+    @Override
+    public void editAccount() {
+//        firebaseFirestore.collection("Users")
+//                        .document(user.getU_id())
+//                                .set(user)
+//                                        .addOnCompleteListener(task -> {
+//                                            if(!task.isSuccessful()){
+//                                               Exception exception = task.getException();
+//                                               assert exception != null;
+//                                               new AlertDialog.Builder(MainActivity.this)
+//                                                       .setTitle("Error")
+//                                                       .setMessage(exception.getLocalizedMessage())
+//                                                       .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
+//                                                       .show();
+//                                               return;
+//                                            }
+//                                            getSupportFragmentManager().beginTransaction()
+//                                                    .replace(R.id.flContent, new LoginFragment())
+//                                                    .addToBackStack(null)
+//                                                    .commit();
+//                                        });
 
     }
 
     @Override
-    public void goToEditAccount(String email, String password, String payment, double points) {
-
+    public void goToEditAccount() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flContent, new EditAccountFragment())
                 .commit();
     }
-
 
     @Override
     public void logout() {
@@ -192,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         getSupportActionBar().hide();
         // go to login page
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rootView, new LoginFragment() )
+                .add(R.id.rootView, new LoginFragment() )
                 .commit();
     }
 
