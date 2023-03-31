@@ -25,21 +25,18 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DecimalFormat;
+
 public class ViewAccountFragment extends Fragment {
 
-    com.example.bojanglesapp.databinding.FragmentViewAccountBinding binding;
-    String userPassword = "";
-    String userEmail = "";
-
-    String userPoints ="";
-    int userPointsInt = 0;
-
-    String userPayment = "";
+    FragmentViewAccountBinding binding;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
-
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    String userPassword = "";
+    String userEmail = "";
+    String userPayment = "";
+    double userPoints;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +49,6 @@ public class ViewAccountFragment extends Fragment {
         return binding.getRoot();
     }
 
-
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -62,35 +56,28 @@ public class ViewAccountFragment extends Fragment {
         requireActivity().setTitle(R.string.my_account_label);
 
         DocumentReference docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+
         docRef.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                DocumentSnapshot document = task.getResult();
+            if(task.getResult().exists()){
+                String nameResult = task.getResult().getString("displayName");
+                String emailResult = task.getResult().getString("Email");
+                String passwordResult = task.getResult().getString("Password");
+                String paymentResult = task.getResult().getString("Payment");
+                double pointsResult = task.getResult().getDouble("Points");
+                DecimalFormat df = new DecimalFormat("#");
 
-                if (document.exists()){
-                    Log.d("whatever", "Document Data: "+ document.getData());
-                    userEmail = document.get("Email", String.class);
-                    userPassword = document.get("Password", String.class);
-                    userPayment = document.get("Credit Card", String.class);
-                    userPoints = document.get("Rewards Points", String.class);
-
-                    //userPointsInt =Integer.parseInt(userPoints);
-
-                } else {
-                    Log.d("whatever", "No such document");
-                }
+                binding.accountNameTextViewAccount.setText(nameResult);
+                binding.textViewUserEmail.setText(emailResult);
+                binding.textViewUserPassword.setText(passwordResult);
+                binding.textViewUserPayment.setText(paymentResult);
+                binding.textViewUserPoints.setText(df.format(pointsResult));
             } else {
                 Log.d("whatever", "get failed with", task.getException());
             }
         });
 
-        binding.accountNameTextViewAccount.setText(firebaseUser.getDisplayName());
-        binding.textViewUserEmail.setText(userEmail);
-        binding.textViewUserPassword.setText(userPassword);
-        binding.textViewUserPayment.setText(userPayment);
-        binding.textViewRewards.setText(userPoints + " Points");
-
         binding.buttonGoToEditAccount.setOnClickListener(v -> {
-            mListener.goToEditAccount(userEmail, userPassword, userPayment);
+            mListener.goToEditAccount(userEmail, userPassword, userPayment, userPoints);
          } //end of the buttonClickListener
         );
 
@@ -106,7 +93,7 @@ public class ViewAccountFragment extends Fragment {
         mListener = (ViewAccountFragment.ViewAccountListener) context;
     }
     interface ViewAccountListener {
-        void goToEditAccount(String email, String password, String creditCard);
+        void goToEditAccount(String email, String password, String payment, double userPoints);
         void logout();
     }
 

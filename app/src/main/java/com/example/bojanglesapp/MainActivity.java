@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     }
 
     @Override
-    public void goToEditAccount(String email, String password, String creditCard) {
+    public void goToEditAccount(String email, String password, String payment, double points) {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flContent, new EditAccountFragment())
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     }
 
     @Override
-    public void createAccount(String name, String email, String password) {
+    public void createAccount(String name, String email, String password, String payment, int points) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(createTask -> {
             if (!createTask.isSuccessful()) {
                 Exception exception = createTask.getException();
@@ -234,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 data.put("displayName", currentUser.getDisplayName());
                 data.put("Email", email);
                 data.put("Password", password);
+                data.put("Payment", payment);
+                data.put("Points", points);
 
                 firebaseFirestore
                         .collection("Users")
@@ -275,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     @Override
     public void goToSignUp() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rootView, new CreateAccountFragment())
+                .replace(R.id.flContent, new CreateAccountFragment())
                 .commit();
     }
 

@@ -46,6 +46,8 @@ public class CreateAccountFragment extends Fragment {
             String name = binding.editTextCreateName.getText().toString();
             String email = binding.editTextCreateEmail.getText().toString();
             String password = binding.editTextCreatePassword.getText().toString();
+            String payment = binding.editTextCreatePayment.getText().toString();
+            int points = 0;
 
             if (email.isEmpty()) {
                 Toast.makeText(getContext(), "Email is required", Toast.LENGTH_SHORT).show();
@@ -53,8 +55,10 @@ public class CreateAccountFragment extends Fragment {
                 Toast.makeText(getContext(), "Password is required", Toast.LENGTH_SHORT).show();
             } else if (name.isEmpty()) {
                 Toast.makeText(getContext(), "Name is required", Toast.LENGTH_SHORT).show();
+            } else if (payment.isEmpty()) {
+                Toast.makeText(getContext(), "Payment is required", Toast.LENGTH_SHORT).show();
             } else {
-                mListener.createAccount(name, email, password);
+                mListener.createAccount(name, email, password, payment, points);
             }
         });
 
@@ -70,7 +74,7 @@ public class CreateAccountFragment extends Fragment {
     }
 
     interface CreateAccountListener {
-        void createAccount(String name, String email, String password);
+        void createAccount(String name, String email, String password, String payment, int points);
         void goToLogin();
     }
 }

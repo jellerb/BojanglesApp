@@ -6,7 +6,7 @@
     <string name="payment_label">Credit Card Number</string>
     <string name="cancel_label">Cancel</string>
     <string name="name_label">Full Name</string>
-    <string name="Reward_label">Rewards</string>
+    <string name="Reward_label">BoWards Points:</string>
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="login_label">Login</string>
