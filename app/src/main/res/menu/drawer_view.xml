@@ -14,7 +14,7 @@
             android:title="@string/my_account_label" />
         <item
             android:id="@+id/edit_account"
-            android:icon="@drawable/user_icon_foreground"
+            android:icon="@mipmap/edit_user_icon_foreground"
             android:title="@string/edit_account_label" />
     </group>
 </menu>
