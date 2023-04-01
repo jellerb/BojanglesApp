@@ -23,6 +23,8 @@
     <string name="empty_prompt">Please enter all fields even if they are not being changed</string>
     <string name="document_menu">hOFJHyDCAuo4rlw6gWTc</string>
     <string name="document_single_items">Ew10njX7C7COsHEBDdKk</string>
+    <string name="shopping_cart_label">Shopping Cart</string>
+    <string name="calories_label">Calories:</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

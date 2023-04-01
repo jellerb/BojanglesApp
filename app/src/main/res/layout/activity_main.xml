@@ -24,6 +24,15 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/menu_box_icon_foreground"
+            android:contentDescription="@string/shopping_cart_label"
+            android:layout_margin="16dp" />
     </LinearLayout>
 
     <!-- The navigation drawer that comes from the left -->

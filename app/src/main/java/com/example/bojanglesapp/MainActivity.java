@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         setContentView(R.layout.activity_main);
 
         currentUser = mAuth.getCurrentUser();
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> goToShoppingCart());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -296,5 +300,11 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
         startActivity(intent);
         finish();
+    }
+
+    public void goToShoppingCart(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, new ShoppingCartFragment())
+                .commit();
     }
 }
