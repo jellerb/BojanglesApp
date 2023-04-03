@@ -7,7 +7,7 @@ public class ShoppingCart implements Serializable {
 
     private ArrayList<MenuItem> cart;
 
- 
+
     public ShoppingCart() {
         this.cart = new ArrayList<MenuItem>();
     }
