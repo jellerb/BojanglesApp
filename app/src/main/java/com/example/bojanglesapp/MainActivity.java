@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             // show logout button
             Button button = headerView.findViewById(R.id.logoutButton);
             button.setOnClickListener(v -> logout());
+            //Make new shopping cart - function
+            ShoppingCart cart = createShoppingCart();
             // go to menu page
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.flContent, new MenuFragment())
@@ -332,4 +335,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 .add(R.id.flContent, new MenuFragment())
                 .commit();
     }
+
+    public ShoppingCart createShoppingCart() {
+        ShoppingCart cart = new ShoppingCart();
+        return cart;
+    }
 }
+
