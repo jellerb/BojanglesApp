@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener {
+public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener {
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser;
@@ -52,14 +52,14 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> goToShoppingCart());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer = findViewById(R.id.drawer_layout);
 
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        nvDrawer = findViewById(R.id.nvView);
         nvDrawer.setItemIconTintList(null);
         nvDrawer.setHovered(true);
         nvDrawer.setItemIconSize(200);
@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         } else {
             // set user info in nav menu
             View headerView = nvDrawer.getHeaderView(0);
-            TextView userName = (TextView) headerView.findViewById(R.id.userName);
+            TextView userName = headerView.findViewById(R.id.userName);
             userName.setText(currentUser.getDisplayName());
-            TextView userEmail = (TextView) headerView.findViewById(R.id.userEmail);
+            TextView userEmail = headerView.findViewById(R.id.userEmail);
             userEmail.setText(currentUser.getEmail());
             // show logout button
-            Button button = (Button) headerView.findViewById(R.id.logoutButton);
+            Button button = headerView.findViewById(R.id.logoutButton);
             button.setOnClickListener(v -> logout());
             // go to menu page
             getSupportFragmentManager().beginTransaction()
@@ -191,9 +191,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         mAuth.signOut();
         // remove user information from nav menu
         View headerView = nvDrawer.getHeaderView(0);
-        TextView userName = (TextView) headerView.findViewById(R.id.userName);
+        TextView userName = headerView.findViewById(R.id.userName);
         userName.setText(null);
-        TextView userEmail = (TextView) headerView.findViewById(R.id.userEmail);
+        TextView userEmail = headerView.findViewById(R.id.userEmail);
         userEmail.setText(null);
         // close drawer menu
         mDrawer.close();
@@ -202,6 +202,18 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         // go to login page
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.rootView, new LoginFragment() )
+                .commit();
+    }
+
+    @Override
+    public void goToMenuItem(String name, double price, String ingredients, int calories) {
+        com.example.bojanglesapp.MenuItem menuItem = new com.example.bojanglesapp.MenuItem(
+                name, price, ingredients, calories
+        );
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, MenuItemFragment.newInstance(menuItem))
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -305,6 +317,19 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     public void goToShoppingCart(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flContent, new ShoppingCartFragment())
+                .commit();
+    }
+
+    @Override
+    public void addToCart(com.example.bojanglesapp.MenuItem item) {
+        // code to add item to cart
+
+    }
+
+    @Override
+    public void goToMenu() {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.flContent, new MenuFragment())
                 .commit();
     }
 }

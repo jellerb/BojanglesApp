@@ -1,6 +1,8 @@
 package com.example.bojanglesapp;
 
-public class MenuItem implements Comparable{
+import java.io.Serializable;
+
+public class MenuItem implements Serializable {
 
     public String name;
     public double price;
@@ -56,7 +58,12 @@ public class MenuItem implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public String toString() {
+        return "MenuItem{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", ingredients='" + ingredients + '\'' +
+                ", calories=" + calories +
+                '}';
     }
 }

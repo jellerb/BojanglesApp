@@ -71,8 +71,9 @@ public class MenuFragment extends Fragment {
         adapter = new FirestoreRecyclerAdapter<MenuItem, MenuItemHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MenuItemHolder holder, int position, @NonNull MenuItem model) {
-                holder.setItemName(model.getItemName());
+                holder.setItemName(model.getItemName(), model.getItemPrice(), model.getIngredients(), model.getCalories());
                 holder.setItemPrice((model.getItemPrice()));
+//                holder.setItemId(model.getItemId(), model.getItemName(), model.getItemPrice(), model.getIngredients(), model.getCalories());
             }
 
             @NonNull
@@ -94,15 +95,23 @@ public class MenuFragment extends Fragment {
             this.view = itemView;
         }
 
-        void setItemName(String name) {
+        void setItemName(String name, double price, String ingredients, int calories) {
             TextView textView = view.findViewById(R.id.textViewMenuItemName);
             textView.setText(name);
+            itemView.setOnClickListener(view ->
+                    mListener.goToMenuItem(name, price, ingredients, calories));
         }
 
         void setItemPrice(double price) {
             TextView textView = view.findViewById(R.id.textViewMenuItemPrice);
             textView.setText(String.valueOf(price));
         }
+
+//        void setItemId(String itemId, String name, double price, String ingredients, int calories) {
+//            itemView.setOnClickListener(view ->
+//                    mListener.goToMenuItem(name, price, ingredients, calories)
+//            );
+//        }
     }
     MenuListener mListener;
 
@@ -126,5 +135,6 @@ public class MenuFragment extends Fragment {
 
     interface MenuListener {
         void logout();
+        void goToMenuItem(String name, double price, String ingredients, int calories);
     }
 }

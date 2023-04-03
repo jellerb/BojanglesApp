@@ -5,33 +5,35 @@
 
 package com.example.bojanglesapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bojanglesapp.databinding.FragmentMenuItemBinding;
+
 public class MenuItemFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FragmentMenuItemBinding binding;
+    private static final String ARG_ITEM = "item";
 
-
-    private String mParam1;
-    private String mParam2;
+    private MenuItem item;
 
     public MenuItemFragment() {
         // Required empty public constructor
     }
 
-
-    public static MenuItemFragment newInstance(String param1, String param2) {
-        MenuItemFragment fragment = new MenuItemFragment();
+    public static MenuItemFragment newInstance(MenuItem item) {
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_ITEM, item);
+
+        MenuItemFragment fragment = new MenuItemFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,14 +42,41 @@ public class MenuItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            this.item = (MenuItem) getArguments().getSerializable(ARG_ITEM);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu_item, container, false);
+        binding = FragmentMenuItemBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        requireActivity().setTitle(item.getItemName());
+
+        binding.textViewItemName.setText(item.getItemName());
+        binding.textViewPrice.setText(String.valueOf(item.getItemPrice()));
+        binding.textViewIngredients.setText(item.getIngredients());
+        binding.textViewCalories.setText(String.valueOf(item.getCalories()));
+        binding.buttonAddToCart.setOnClickListener(v -> {
+            mListener.addToCart(item);
+            mListener.goToMenu();
+        });
+    }
+
+    MenuItemListener mListener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mListener = (MenuItemListener) context;
+    }
+
+    interface MenuItemListener {
+        void addToCart(MenuItem item);
+        void goToMenu();
     }
 }
