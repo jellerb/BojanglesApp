@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener {
+public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener {
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser;
@@ -342,5 +342,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 .commit();
     }
 
+    @Override
+    public void goToCheckOut() {
+
+    }
 }
 
