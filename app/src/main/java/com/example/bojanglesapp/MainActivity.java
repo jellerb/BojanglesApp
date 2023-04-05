@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     DrawerLayout mDrawer;
     NavigationView nvDrawer;
 
+    ShoppingCart shoppingCart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +90,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             // show logout button
             Button button = headerView.findViewById(R.id.logoutButton);
             button.setOnClickListener(v -> logout());
+
             //Make new shopping cart - function
-            ShoppingCart cart = createShoppingCart();
+            shoppingCart = new ShoppingCart();
+
             // go to menu page
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.flContent, new MenuFragment())
@@ -325,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void addToCart(com.example.bojanglesapp.MenuItem item) {
-        // code to add item to cart
+        shoppingCart.addItem(item);
 
     }
 
@@ -336,9 +340,5 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 .commit();
     }
 
-    public ShoppingCart createShoppingCart() {
-        ShoppingCart cart = new ShoppingCart();
-        return cart;
-    }
 }
 

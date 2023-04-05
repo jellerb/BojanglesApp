@@ -1,8 +1,9 @@
 package com.example.bojanglesapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ShoppingCart {
+public class ShoppingCart implements Serializable {
 
     private ArrayList<MenuItem> cart;
 
