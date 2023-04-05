@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     FirebaseUser currentUser;
     DrawerLayout mDrawer;
     NavigationView nvDrawer;
+
+    ShoppingCart shoppingCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             // show logout button
             Button button = headerView.findViewById(R.id.logoutButton);
             button.setOnClickListener(v -> logout());
+
+            //Make new shopping cart - function
+            shoppingCart = new ShoppingCart();
+
             // go to menu page
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.flContent, new MenuFragment())
@@ -324,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void addToCart(com.example.bojanglesapp.MenuItem item) {
-        // code to add item to cart
+        shoppingCart.addItem(item);
 
     }
 
@@ -334,4 +341,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 .add(R.id.flContent, new MenuFragment())
                 .commit();
     }
+
 }
+
