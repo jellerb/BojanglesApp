@@ -13,26 +13,30 @@
         android:orientation="vertical">
 
         <!-- The ActionBar displayed at the top -->
-        <include
-            layout="@layout/toolbar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:fitsSystemWindows="true"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/boRed">
+
+            <Button
+                android:id="@+id/buttonToolbarShoppingCart"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="end"
+                android:background="@mipmap/shopping_cart_foreground" />
+        </androidx.appcompat.widget.Toolbar>
 
         <!-- The main content view where fragments are loaded -->
         <FrameLayout
             android:id="@+id/flContent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+        </FrameLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:src="@drawable/menu_box_icon_foreground"
-            android:contentDescription="@string/shopping_cart_label"
-            android:layout_margin="16dp" />
     </LinearLayout>
 
     <!-- The navigation drawer that comes from the left -->

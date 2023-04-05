@@ -16,5 +16,9 @@
             android:id="@+id/edit_account"
             android:icon="@mipmap/edit_user_icon_foreground"
             android:title="@string/edit_account_label" />
+        <item
+            android:id="@+id/shopping_cart"
+            android:icon="@mipmap/shopping_cart_foreground"
+            android:title="@string/shopping_cart_label" />
     </group>
 </menu>

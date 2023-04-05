@@ -49,11 +49,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
         currentUser = mAuth.getCurrentUser();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> goToShoppingCart());
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Button toolBarButton = findViewById(R.id.buttonToolbarShoppingCart);
+        toolBarButton.setOnClickListener(v -> goToShoppingCart());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -124,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 break;
             case R.id.edit_account:
                 fragmentClass = EditAccountFragment.class;
+                break;
+            case R.id.shopping_cart:
+                fragmentClass = ShoppingCartFragment.class;
                 break;
             default:
                 fragmentClass = MenuFragment.class;
