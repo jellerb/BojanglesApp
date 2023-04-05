@@ -6,28 +6,37 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.bojanglesapp.databinding.FragmentShoppingCartBinding;
+
+import java.util.ArrayList;
 
 public class ShoppingCartFragment extends Fragment {
 
     FragmentShoppingCartBinding binding;
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_CART = "cart";
 
-    private String mParam1;
+    private ShoppingCart sCart;
+    ShoppingCartRecyclerAdapter adapter;
+    RecyclerView shoppingCartRecyclerView;
+    LinearLayoutManager layoutManager;
+    ArrayList<MenuItem> mList;
 
     public ShoppingCartFragment() {
         // Required empty public constructor
     }
 
-    public static ShoppingCartFragment newInstance(String param1, String param2) {
+    public static ShoppingCartFragment newInstance(ShoppingCart sCart) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_CART, sCart);
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,7 +45,8 @@ public class ShoppingCartFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            this.sCart = (ShoppingCart) getArguments().getSerializable(ARG_CART);
+            mList = sCart.getCart();
         }
     }
 
@@ -52,6 +62,14 @@ public class ShoppingCartFragment extends Fragment {
 
         requireActivity().setTitle(R.string.shopping_cart_label);
 
+        shoppingCartRecyclerView = view.findViewById(R.id.shoppingCartRecyclerView);
+        shoppingCartRecyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(getActivity());
+        shoppingCartRecyclerView.setLayoutManager(layoutManager);
+        adapter = new ShoppingCartRecyclerAdapter(mList);
+        shoppingCartRecyclerView.setAdapter(adapter);
+        binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut());
     }
 
     ShoppingCartListener sListener;

@@ -3,7 +3,7 @@ package com.example.bojanglesapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ShoppingCart implements Serializable {
+public class ShoppingCart extends MenuItem implements Serializable {
 
     private ArrayList<MenuItem> cart;
 
@@ -25,7 +25,12 @@ public class ShoppingCart implements Serializable {
     public ArrayList getCart() {
         return this.cart;
     }
-//    private MenuItem menuItem;
+
+    public void setCart(ArrayList<MenuItem> cart) {
+        this.cart = cart;
+    }
+
+    //    private MenuItem menuItem;
 //    private int quantity;
 //
 //

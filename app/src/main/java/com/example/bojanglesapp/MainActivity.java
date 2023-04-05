@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     FirebaseUser currentUser;
     DrawerLayout mDrawer;
     NavigationView nvDrawer;
-
     ShoppingCart shoppingCart;
 
     @Override
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Button toolBarButton = findViewById(R.id.buttonToolbarShoppingCart);
-        toolBarButton.setOnClickListener(v -> goToShoppingCart());
+        toolBarButton.setOnClickListener(v -> goToShoppingCart(shoppingCart));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -95,8 +94,12 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
             // go to menu page
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.flContent, new MenuFragment())
+                    .replace(R.id.flContent, MenuFragment.newInstance(shoppingCart))
+                    .addToBackStack(null)
                     .commit();
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.flContent, new MenuFragment())
+//                    .commit();
         }
     }
 
@@ -323,16 +326,18 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         finish();
     }
 
-    public void goToShoppingCart(){
+    public void goToShoppingCart(ShoppingCart shoppingCart){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flContent, new ShoppingCartFragment())
+                .replace(R.id.flContent, ShoppingCartFragment.newInstance(shoppingCart))
+                .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void addToCart(com.example.bojanglesapp.MenuItem item) {
         shoppingCart.addItem(item);
-
+        System.out.println(shoppingCart.getCartSize());
+        System.out.println(shoppingCart.getCart());
     }
 
     @Override

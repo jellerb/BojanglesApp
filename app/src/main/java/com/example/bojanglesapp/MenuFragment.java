@@ -89,7 +89,6 @@ public class MenuFragment extends Fragment {
             protected void onBindViewHolder(@NonNull MenuItemHolder holder, int position, @NonNull MenuItem model) {
                 holder.setItemName(model.getItemName(), model.getItemPrice(), model.getIngredients(), model.getCalories());
                 holder.setItemPrice((model.getItemPrice()));
-//                holder.setItemId(model.getItemId(), model.getItemName(), model.getItemPrice(), model.getIngredients(), model.getCalories());
             }
 
             @NonNull
@@ -122,8 +121,6 @@ public class MenuFragment extends Fragment {
             TextView textView = view.findViewById(R.id.textViewMenuItemPrice);
             textView.setText(String.valueOf(price));
         }
-
-
     }
     MenuListener mListener;
 
