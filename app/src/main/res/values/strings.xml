@@ -32,6 +32,7 @@
     <string name="total_price_label">Total:</string>
     <string name="tax_label">Tax:</string>
     <string name="subtotal_label">Subtotal:</string>
+    <string name="return_to_menu">Return To Menu</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

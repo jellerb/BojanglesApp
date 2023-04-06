@@ -38,6 +38,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener {
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private ArrayList<com.example.bojanglesapp.MenuItem> sList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser;
     DrawerLayout mDrawer;
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
             //Make new shopping cart - function
             shoppingCart = new ShoppingCart();
+            sList = shoppingCart.getCart();
+
 
             // go to menu page
             getSupportFragmentManager().beginTransaction()
@@ -133,9 +136,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 break;
             case R.id.edit_account:
                 fragmentClass = EditAccountFragment.class;
-                break;
-            case R.id.shopping_cart:
-                fragmentClass = ShoppingCartFragment.class;
                 break;
             default:
                 fragmentClass = MenuFragment.class;
@@ -328,8 +328,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     public void goToShoppingCart(ShoppingCart shoppingCart){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flContent, ShoppingCartFragment.newInstance(shoppingCart))
-                .addToBackStack(null)
+                .replace(R.id.flContent, ShoppingCartFragment.newInstance(shoppingCart), "shopping cart")
+                .addToBackStack("shopping cart")
                 .commit();
     }
 
@@ -343,13 +343,28 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     @Override
     public void goToMenu() {
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.flContent, new MenuFragment())
+                .add(R.id.flContent, new MenuFragment(), "menu")
                 .commit();
     }
 
     @Override
-    public void goToCheckOut() {
+    public void goToCheckOut(ShoppingCart sCart) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, new CheckOutFragment(), "checkout")
+                .commit();
+    }
 
+    @Override
+    public void emptyCartReturnToMenu(ArrayList<com.example.bojanglesapp.MenuItem> mList) {
+        MenuFragment fragment = (MenuFragment)getSupportFragmentManager().findFragmentByTag("menu");
+
+        getSupportFragmentManager()
+                .popBackStack("shopping cart", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        if (fragment != null) {
+            this.sList = mList;
+            fragment.updateShoppingCart(sList);
+        }
     }
 }
 

@@ -11,6 +11,13 @@ public class User {
         this.payment = payment;
     }
 
+    public User(String user_id, String name, String email, String payment) {
+        this.user_id = user_id;
+        this.name = name;
+        this.email = email;
+        this.payment = payment;
+    }
+
     public User() {
     }
 

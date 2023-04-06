@@ -30,6 +30,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ public class MenuFragment extends Fragment {
     private static final String ARG_SHOPPING_CART = "shoppingCart";
 
     private ShoppingCart shoppingCart;
+    ArrayList<MenuItem> mList;
 
     public static MenuFragment newInstance(ShoppingCart shoppingCart) {
         Bundle args = new Bundle();
@@ -59,6 +61,7 @@ public class MenuFragment extends Fragment {
         if(getArguments() != null) {
             //brings in shopping cart
             this.shoppingCart = (ShoppingCart) getArguments().getSerializable(ARG_SHOPPING_CART);
+            this.mList = shoppingCart.getCart();
         }
     }
 
@@ -134,6 +137,10 @@ public class MenuFragment extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    public void updateShoppingCart(ArrayList<MenuItem> mList) {
+        this.mList = mList;
     }
 
     @Override

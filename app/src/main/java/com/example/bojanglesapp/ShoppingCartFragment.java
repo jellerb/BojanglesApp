@@ -19,11 +19,10 @@ import com.example.bojanglesapp.databinding.FragmentShoppingCartBinding;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ShoppingCartFragment extends Fragment {
+public class ShoppingCartFragment extends Fragment implements ShoppingCartRecyclerAdapter.iShoppingCart{
 
     FragmentShoppingCartBinding binding;
     private static final String ARG_CART = "cart";
-
     private ShoppingCart sCart;
     ShoppingCartRecyclerAdapter adapter;
     RecyclerView shoppingCartRecyclerView;
@@ -68,23 +67,19 @@ public class ShoppingCartFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         shoppingCartRecyclerView.setLayoutManager(layoutManager);
-        adapter = new ShoppingCartRecyclerAdapter(mList);
+        adapter = new ShoppingCartRecyclerAdapter(getActivity(), mList, this);
         shoppingCartRecyclerView.setAdapter(adapter);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        updateView();
 
-        binding.textViewSubtotal.setText(df.format(sCart.getSubtotal()));
-        binding.textViewTax.setText(df.format(sCart.getTax()));
-        binding.textViewTotal.setText(df.format(sCart.getTotal()));
-
-        binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut());
+        binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut(sCart));
 
     }
 
     ShoppingCartListener sListener;
 
     private void updateView() {
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("0.00");
 
         binding.textViewSubtotal.setText(df.format(sCart.getSubtotal()));
         binding.textViewTax.setText(df.format(sCart.getTax()));
@@ -97,7 +92,21 @@ public class ShoppingCartFragment extends Fragment {
         sListener = (ShoppingCartListener) context;
     }
 
+    @Override
+    public void deleteButtonClicked(int chosenMenuItem) {
+        mList.remove(chosenMenuItem);
+
+        if ((mList.isEmpty())) {
+            sListener.emptyCartReturnToMenu(mList);
+            //set text on shopping cart page to 0
+        } else {
+            adapter.notifyItemRemoved(chosenMenuItem);
+            updateView();
+        }
+    }
+
     interface ShoppingCartListener {
-        void goToCheckOut();
+        void goToCheckOut(ShoppingCart sCart);
+        void emptyCartReturnToMenu(ArrayList<MenuItem> mList);
     }
 }
