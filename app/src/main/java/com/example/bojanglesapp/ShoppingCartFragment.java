@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.bojanglesapp.databinding.FragmentShoppingCartBinding;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ShoppingCartFragment extends Fragment {
@@ -69,10 +70,26 @@ public class ShoppingCartFragment extends Fragment {
         shoppingCartRecyclerView.setLayoutManager(layoutManager);
         adapter = new ShoppingCartRecyclerAdapter(mList);
         shoppingCartRecyclerView.setAdapter(adapter);
+
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        binding.textViewSubtotal.setText(df.format(sCart.getSubtotal()));
+        binding.textViewTax.setText(df.format(sCart.getTax()));
+        binding.textViewTotal.setText(df.format(sCart.getTotal()));
+
         binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut());
+
     }
 
     ShoppingCartListener sListener;
+
+    private void updateView() {
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        binding.textViewSubtotal.setText(df.format(sCart.getSubtotal()));
+        binding.textViewTax.setText(df.format(sCart.getTax()));
+        binding.textViewTotal.setText(df.format(sCart.getTotal()));
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {

@@ -10,24 +10,131 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shoppingCartRecyclerView"
-        android:layout_width="409dp"
-        android:layout_height="661dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCheckOut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="566dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/shopping_cart_row_item" />
 
-    <Button
-        android:id="@+id/buttonCheckOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/boRed"
-        android:text="@string/check_out_label"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="411dp"
+        android:layout_height="166dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textViewTotalDollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/price_label"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotal"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTaxDollar" />
+
+        <TextView
+            android:id="@+id/textViewTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTax" />
+
+        <TextView
+            android:id="@+id/textViewTotalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/total_price_label"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalDollar"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTaxLabel" />
+
+        <TextView
+            android:id="@+id/textViewTaxLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/tax_label"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTaxDollar"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSubtotalLabel" />
+
+        <TextView
+            android:id="@+id/textViewTax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSubtotal" />
+
+        <Button
+            android:id="@+id/buttonCheckOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/boRed"
+            android:text="@string/check_out_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.854" />
+
+        <TextView
+            android:id="@+id/textViewSubtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewSubtotalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/subtotal_label"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSubDollar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewSubDollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/price_label"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSubtotal"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTaxDollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/price_label"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTax"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSubDollar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

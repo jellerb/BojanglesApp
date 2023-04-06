@@ -6,6 +6,9 @@ import java.util.ArrayList;
 public class ShoppingCart extends MenuItem implements Serializable {
 
     private ArrayList<MenuItem> cart;
+    private double subtotal = 0;
+    private double tax = 0 ;
+    private double total = 0;
 
 
     public ShoppingCart() {
@@ -30,29 +33,33 @@ public class ShoppingCart extends MenuItem implements Serializable {
         this.cart = cart;
     }
 
-    //    private MenuItem menuItem;
-//    private int quantity;
-//
-//
-//
-//    public ShoppingCart(MenuItem menuItem, int quantity) {
-//        this.menuItem = menuItem;
-//        this.quantity = quantity;
-//    }
-//
-//    public MenuItem getMenuItem() {
-//        return menuItem;
-//    }
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setMenuItem(MenuItem menuItem) {
-//        this.menuItem = menuItem;
-//    }
-//
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
+    public double getSubtotal() {
+        for (int i = 0; i < this.getCartSize(); i++) {
+            this.subtotal += this.cart.get(i).getItemPrice();
+        }
+        return subtotal;
+    }
+
+    public double getTax() {
+        //calculating off of NC DOR tax of 2%
+        this.tax = this.subtotal * .02;
+        return tax;
+    }
+
+    public double getTotal() {
+        this.total = this.subtotal + this.tax;
+        return total;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 }

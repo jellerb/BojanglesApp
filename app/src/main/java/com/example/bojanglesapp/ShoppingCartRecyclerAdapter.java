@@ -39,7 +39,7 @@ public class ShoppingCartRecyclerAdapter extends RecyclerView.Adapter<ShoppingCa
             mList.remove(item);
             // decrement total
             // refresh fragment
-            notifyDataSetChanged();
+            notifyItemRemoved(mList.indexOf(item));
         });
     }
 
