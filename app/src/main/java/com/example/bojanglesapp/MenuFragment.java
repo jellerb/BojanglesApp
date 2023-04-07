@@ -43,7 +43,7 @@ public class MenuFragment extends Fragment {
 
     private static final String ARG_SHOPPING_CART = "shoppingCart";
 
-    private ShoppingCart shoppingCart;
+    ShoppingCart shoppingCart;
     ArrayList<MenuItem> mList;
 
     public static MenuFragment newInstance(ShoppingCart shoppingCart) {

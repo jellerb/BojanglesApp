@@ -9,13 +9,23 @@ public class ShoppingCart extends MenuItem implements Serializable {
     private double subtotal;
     private double tax;
     private double total;
-
+    private double points;
 
     public ShoppingCart() {
         this.cart = new ArrayList<MenuItem>();
         this.subtotal = 0;
         this.tax = 0;
         this.total = 0;
+        this.points = 0;
+    }
+
+    public double getPoints() {
+        this.points = this.total;
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     //quantity

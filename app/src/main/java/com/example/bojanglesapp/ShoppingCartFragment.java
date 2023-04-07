@@ -23,7 +23,7 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
 
     FragmentShoppingCartBinding binding;
     private static final String ARG_CART = "cart";
-    private ShoppingCart sCart;
+    ShoppingCart sCart;
     ShoppingCartRecyclerAdapter adapter;
     RecyclerView shoppingCartRecyclerView;
     LinearLayoutManager layoutManager;
@@ -71,9 +71,9 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
         shoppingCartRecyclerView.setAdapter(adapter);
 
         updateView();
+        System.out.println(sCart);
 
         binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut(sCart));
-
     }
 
     ShoppingCartListener sListener;

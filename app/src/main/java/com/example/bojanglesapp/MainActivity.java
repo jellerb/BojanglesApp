@@ -36,14 +36,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener {
+public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener, CheckOutFragment.CheckOutListener {
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private ArrayList<com.example.bojanglesapp.MenuItem> sList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser;
     DrawerLayout mDrawer;
     NavigationView nvDrawer;
-    ShoppingCart shoppingCart;
+    ShoppingCart shoppingCart = new ShoppingCart();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             button.setOnClickListener(v -> logout());
 
             //Make new shopping cart - function
-            shoppingCart = new ShoppingCart();
+//            shoppingCart = new ShoppingCart();
             sList = shoppingCart.getCart();
 
 
@@ -100,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                     .replace(R.id.flContent, MenuFragment.newInstance(shoppingCart))
                     .addToBackStack(null)
                     .commit();
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.flContent, new MenuFragment())
-//                    .commit();
         }
     }
 
@@ -336,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     @Override
     public void addToCart(com.example.bojanglesapp.MenuItem item) {
         shoppingCart.addItem(item);
+
         System.out.println(shoppingCart.getCartSize());
         System.out.println(shoppingCart.getCart());
     }
@@ -365,6 +363,35 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             this.sList = mList;
             fragment.updateShoppingCart(sList);
         }
+    }
+
+    @Override
+    public void placeOrder(Order order) {
+
+
+        firebaseFirestore
+                .collection("Users")
+                .document(currentUser.getUid())
+                .collection("Orders")
+                .document(order.getOrderId())
+                .set(order)
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Exception exception = task.getException();
+                        assert exception != null;
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("An Error Occurred")
+                                .setMessage(exception.getLocalizedMessage())
+                                .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
+                                .show();
+                        return;
+                    }
+       //             goConfirmationPage();
+                });
+    }
+
+    public void goConfirmationPage() {
+
     }
 }
 

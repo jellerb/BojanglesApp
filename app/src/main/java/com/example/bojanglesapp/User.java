@@ -2,19 +2,13 @@ package com.example.bojanglesapp;
 
 public class User {
     String user_id, name, email, password, payment;
+    int points;
 
     public User(String user_id, String name, String email, String password, String payment) {
         this.user_id = user_id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.payment = payment;
-    }
-
-    public User(String user_id, String name, String email, String payment) {
-        this.user_id = user_id;
-        this.name = name;
-        this.email = email;
         this.payment = payment;
     }
 
