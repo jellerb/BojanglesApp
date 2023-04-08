@@ -55,7 +55,12 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Button toolBarButton = findViewById(R.id.buttonToolbarShoppingCart);
-        toolBarButton.setOnClickListener(v -> goToShoppingCart(shoppingCart));
+        toolBarButton.setOnClickListener(v ->{
+            //System.out.println("Prior to goTo Call: " + shoppingCart.getCart());
+            //System.out.println("Prior to goTo Call: " + shoppingCart.getSubtotal());
+            //System.out.println("Prior to goToShoppingCart Call no get: " + shoppingCart);
+            goToShoppingCart(shoppingCart);
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -319,11 +324,15 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.putExtra("user", firebaseUser);
 
+
+
         startActivity(intent);
         finish();
     }
 
     public void goToShoppingCart(ShoppingCart shoppingCart){
+        System.out.println("Going to cart - need to pass cart (334): " + shoppingCart.getCart());
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flContent, ShoppingCartFragment.newInstance(shoppingCart), "shopping cart")
                 .addToBackStack("shopping cart")
@@ -332,23 +341,31 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void addToCart(com.example.bojanglesapp.MenuItem item) {
+        //In this function we know that a menu item is being added to the shopping cart
+        // can we confirm this within main?
         shoppingCart.addItem(item);
 
-        System.out.println(shoppingCart.getCartSize());
-        System.out.println(shoppingCart.getCart());
+        System.out.println("addToCart " + shoppingCart.getCartSize());
+        System.out.println("addToCart " + shoppingCart.getCart());
     }
 
     @Override
     public void goToMenu() {
+        //Output shows that when user adds item to cart, shopping cart object is being updated
+        System.out.println("Going to menu");
+
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.flContent, new MenuFragment(), "menu")
                 .commit();
     }
 
     @Override
-    public void goToCheckOut(ShoppingCart sCart) {
+    public void goToCheckOut(ShoppingCart shoppingCart) {
+        System.out.println("Going to checkout");
+        //two lines down was the problem - added CheckOutFragment.newInstance(shoppingCart)
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flContent, new CheckOutFragment(), "checkout")
+                .replace(R.id.flContent,  CheckOutFragment.newInstance(shoppingCart), "checkout")
                 .commit();
     }
 

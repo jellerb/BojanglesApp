@@ -79,4 +79,14 @@ public class ShoppingCart extends MenuItem implements Serializable {
         this.total = total;
     }
 
+    @Override
+    public String toString() {
+        return "ShoppingCart{" +
+                "cart=" + cart +
+                ", subtotal=" + subtotal +
+                ", tax=" + tax +
+                ", total=" + total +
+                ", points=" + points +
+                '}';
+    }
 }

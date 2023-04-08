@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
 public class CheckOutFragment extends Fragment {
 
     private static final String ARG_CART = "cart";
-    private ShoppingCart sCart;
+    ShoppingCart sCart;
     double total, tax, subtotal, points;
     FragmentCheckOutBinding binding;
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -49,12 +49,17 @@ public class CheckOutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Entering Checkout");
+
         if (getArguments() != null) {
+            System.out.println("Entering Checkout pt2 - argument?");
             this.sCart = (ShoppingCart) getArguments().getSerializable(ARG_CART);
             this.total = sCart.getTotal();
             this.tax = sCart.getTax();
             this.subtotal = sCart.getSubtotal();
             this.points = sCart.getPoints();
+
+            System.out.println("Inside CheckOutFragment - sCart: " + this.sCart);
         }
     }
 
@@ -74,6 +79,22 @@ public class CheckOutFragment extends Fragment {
 
         docRef.get().addOnCompleteListener(task -> {
             if(task.getResult().exists()){
+                System.out.println("Inside docRef for assignments");
+
+                //BIG PROBLEM:
+                /*this whole docRef jazz is returning a promise, meaning that code below
+                this "function" (i.e. code after ~line 118) will be executed prior to this information
+                being gathered from database. This means that the button can be pressed aswell before
+                finishing.
+                SOLUTION 1:
+                    Find Java packages to handle asynchronous code via async, await functions..
+                SOLUTION 2 (easier?):
+                    Only utilize order within this if statement (this is limiting). This would
+                    include the button
+
+                If you have not seen this before, it is tricky and annoying. I'm leaving the
+                prints to show you how/why this is happening. Cart is here tho.
+                */
                 String nameResult = task.getResult().getString("displayName");
                 String emailResult = task.getResult().getString("Email");
                 String paymentResult = task.getResult().getString("Payment");
@@ -87,6 +108,9 @@ public class CheckOutFragment extends Fragment {
                 order.setCustomerPayment(paymentResult);
                 order.setCart(sCart);
                 order.setPointsGained(points);
+
+                System.out.println("Inside DocRef Order: " + order);
+                System.out.println("Inside DocRef Order.getCart: " + order.getCart());
             } else {
                 Log.d("whatever", "get failed with", task.getException());
             }
@@ -102,7 +126,10 @@ public class CheckOutFragment extends Fragment {
         binding.textViewTotal.setText(dfDecimal.format(total));
 
         binding.textViewUserPoints.setText(dfNoDecimal.format(points));
-        System.out.println(order);
+
+        System.out.println("Order outside docRef: " + order);
+        System.out.println("Order.getCart() outside docRef: " + order.getCart());
+
         binding.buttonCheckOut.setOnClickListener(v -> {
             order.setOrderedAt();
             cListener.placeOrder(order);
