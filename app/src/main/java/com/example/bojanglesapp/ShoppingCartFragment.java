@@ -44,9 +44,12 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             this.sCart = (ShoppingCart) getArguments().getSerializable(ARG_CART);
             mList = sCart.getCart();
+
+            System.out.println("Entering Shopping Cart.");
         }
     }
 
@@ -71,7 +74,9 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
         shoppingCartRecyclerView.setAdapter(adapter);
 
         updateView();
-        System.out.println(sCart);
+        //build sCart using mList?
+        System.out.println("Contents of sCart (shoppingCart): " + sCart);
+        System.out.println("SCF - Price Total: " + sCart.getTotal());
 
         binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut(sCart));
     }

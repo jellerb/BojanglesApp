@@ -62,6 +62,7 @@ public class MenuItemFragment extends Fragment {
         binding.textViewIngredients.setText(item.getIngredients());
         binding.textViewCalories.setText(String.valueOf(item.getCalories()));
         binding.buttonAddToCart.setOnClickListener(v -> {
+
             mListener.addToCart(item);
             mListener.goToMenu();
         });
