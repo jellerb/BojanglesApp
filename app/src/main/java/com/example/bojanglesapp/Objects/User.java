@@ -1,4 +1,4 @@
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.Objects;
 
 public class User {
     String user_id, name, email, password, payment;

@@ -3,7 +3,7 @@
 // ITCS 6112 - 051
 // Stephanie Karp, Wes Wotring, Jason Ellerbeck
 
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,12 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bojanglesapp.databinding.FragmentEditAccountBinding;
+import com.example.bojanglesapp.R;
 import com.example.bojanglesapp.databinding.FragmentViewAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;

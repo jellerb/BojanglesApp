@@ -1,4 +1,4 @@
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.Objects;
 
 import java.io.Serializable;
 

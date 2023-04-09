@@ -1,4 +1,4 @@
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bojanglesapp.Objects.Order;
+import com.example.bojanglesapp.R;
+import com.example.bojanglesapp.Objects.ShoppingCart;
 import com.example.bojanglesapp.databinding.FragmentCheckOutBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

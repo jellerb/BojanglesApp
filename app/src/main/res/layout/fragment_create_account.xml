@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FDDA02"
     android:padding="16dp"
-    tools:context=".CreateAccountFragment">
+    tools:context=".MainActivityAndFragments.CreateAccountFragment">
 
     <EditText
         android:id="@+id/editTextCreatePayment"

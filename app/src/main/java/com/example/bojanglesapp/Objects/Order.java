@@ -1,7 +1,6 @@
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.Objects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.UUID;
 import com.google.firebase.Timestamp;
 
@@ -14,6 +13,7 @@ public class Order implements Serializable {
     private String customerPayment;
     private Timestamp orderedAt;
     private double pointsGained;
+
 
     public Order() {
         this.orderId = UUID.randomUUID().toString();

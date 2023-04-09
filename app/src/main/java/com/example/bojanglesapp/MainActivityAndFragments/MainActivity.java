@@ -3,12 +3,10 @@
 // ITCS 6112 - 051
 // Stephanie Karp, Wes Wotring, Jason Ellerbeck
 
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +21,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.bojanglesapp.Objects.Order;
+import com.example.bojanglesapp.Objects.ShoppingCart;
+import com.example.bojanglesapp.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,9 +38,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener, CheckOutFragment.CheckOutListener {
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private ArrayList<com.example.bojanglesapp.MenuItem> sList;
+    private ArrayList<com.example.bojanglesapp.Objects.MenuItem> sList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser currentUser;
+    FirebaseUser firebaseUser;
     DrawerLayout mDrawer;
     NavigationView nvDrawer;
     ShoppingCart shoppingCart = new ShoppingCart();
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentUser = mAuth.getCurrentUser();
+        firebaseUser = mAuth.getCurrentUser();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,21 +88,22 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             // set user info in nav menu
             View headerView = nvDrawer.getHeaderView(0);
             TextView userName = headerView.findViewById(R.id.userName);
-            userName.setText(currentUser.getDisplayName());
+            userName.setText(firebaseUser.getDisplayName());
             TextView userEmail = headerView.findViewById(R.id.userEmail);
-            userEmail.setText(currentUser.getEmail());
+            userEmail.setText(firebaseUser.getEmail());
             // show logout button
             Button button = headerView.findViewById(R.id.logoutButton);
             button.setOnClickListener(v -> logout());
 
             //Make new shopping cart - function
 //            shoppingCart = new ShoppingCart();
-            sList = shoppingCart.getCart();
+//            sList = shoppingCart.getCart();
 
 
             // go to menu page
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.flContent, MenuFragment.newInstance(shoppingCart))
+//                    .replace(R.id.flContent, MenuFragment.newInstance(shoppingCart))
+                    .replace(R.id.flContent, new MenuFragment())
                     .addToBackStack(null)
                     .commit();
         }
@@ -221,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void goToMenuItem(String name, double price, String ingredients, int calories) {
-        com.example.bojanglesapp.MenuItem menuItem = new com.example.bojanglesapp.MenuItem(
+        com.example.bojanglesapp.Objects.MenuItem menuItem = new com.example.bojanglesapp.Objects.MenuItem(
                 name, price, ingredients, calories
         );
 
@@ -250,10 +251,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                     .build();
 
             AuthResult result = createTask.getResult();
-            currentUser = result.getUser();
-            assert currentUser != null;
+            firebaseUser = result.getUser();
+            assert firebaseUser != null;
 
-            currentUser.updateProfile(request).addOnCompleteListener(task -> {
+            firebaseUser.updateProfile(request).addOnCompleteListener(task -> {
                 if (!task.isSuccessful()) {
                     Exception exception = task.getException();
                     assert exception != null;
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 }
 
                 Map<String, Object> data = new HashMap<>();
-                data.put("displayName", currentUser.getDisplayName());
+                data.put("displayName", firebaseUser.getDisplayName());
                 data.put("Email", email);
                 data.put("Password", password);
                 data.put("Payment", payment);
@@ -274,10 +275,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
                 firebaseFirestore
                         .collection("Users")
-                        .document(currentUser.getUid())
+                        .document(firebaseUser.getUid())
                         .set(data);
 
-                goToMenu(currentUser);
+                goToMenu(firebaseUser);
             });
         });
     }
@@ -303,9 +304,10 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 return;
             }
 
-            currentUser = task.getResult().getUser();
+            firebaseUser = task.getResult().getUser();
+//            currentUser = new User().fi
 
-            goToMenu(currentUser);
+            goToMenu(firebaseUser);
         });
     }
 
@@ -340,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     }
 
     @Override
-    public void addToCart(com.example.bojanglesapp.MenuItem item) {
+    public void addToCart(com.example.bojanglesapp.Objects.MenuItem item) {
         //In this function we know that a menu item is being added to the shopping cart
         // can we confirm this within main?
         shoppingCart.addItem(item);
@@ -370,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     }
 
     @Override
-    public void emptyCartReturnToMenu(ArrayList<com.example.bojanglesapp.MenuItem> mList) {
+    public void emptyCartReturnToMenu(ArrayList<com.example.bojanglesapp.Objects.MenuItem> mList) {
         MenuFragment fragment = (MenuFragment)getSupportFragmentManager().findFragmentByTag("menu");
 
         getSupportFragmentManager()
@@ -388,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
         firebaseFirestore
                 .collection("Users")
-                .document(currentUser.getUid())
+                .document(firebaseUser.getUid())
                 .collection("Orders")
                 .document(order.getOrderId())
                 .set(order)
@@ -408,7 +410,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     }
 
     public void goConfirmationPage() {
-
+        // pull order
+        // send to confirmation page
+        // print information on confirmation page
     }
 }
 

@@ -1,9 +1,9 @@
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.Objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ShoppingCart extends MenuItem implements Serializable {
+public class ShoppingCart implements Serializable {
 
     private ArrayList<MenuItem> cart;
     private double subtotal;
@@ -12,7 +12,7 @@ public class ShoppingCart extends MenuItem implements Serializable {
     private double points;
 
     public ShoppingCart() {
-        this.cart = new ArrayList<MenuItem>();
+        this.cart = new ArrayList<>();
         this.subtotal = 0;
         this.tax = 0;
         this.total = 0;

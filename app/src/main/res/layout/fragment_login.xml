@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FDDA02"
-    tools:context=".LoginFragment">
+    tools:context=".MainActivityAndFragments.LoginFragment">
 
     <Button
         android:id="@+id/buttonCreateNewAccount"

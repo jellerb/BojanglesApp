@@ -1,20 +1,18 @@
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
+import com.example.bojanglesapp.Objects.MenuItem;
+import com.example.bojanglesapp.R;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class ShoppingCartRecyclerAdapter extends RecyclerView.Adapter<ShoppingCartRecyclerAdapter.ShoppingCartItemHolder> {
     ArrayList<MenuItem> mList;

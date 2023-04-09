@@ -3,7 +3,7 @@
 // ITCS 6112 - 051
 // Stephanie Karp, Wes Wotring, Jason Ellerbeck
 
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.bojanglesapp.R;
 import com.example.bojanglesapp.databinding.FragmentCreateAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 

@@ -1,4 +1,4 @@
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.example.bojanglesapp.Objects.MenuItem;
+import com.example.bojanglesapp.R;
+import com.example.bojanglesapp.Objects.ShoppingCart;
+import com.example.bojanglesapp.Adapters.ShoppingCartRecyclerAdapter;
 import com.example.bojanglesapp.databinding.FragmentShoppingCartBinding;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ShoppingCartFragment extends Fragment implements ShoppingCartRecyclerAdapter.iShoppingCart{
+public class ShoppingCartFragment extends Fragment implements ShoppingCartRecyclerAdapter.iShoppingCart {
 
     FragmentShoppingCartBinding binding;
     private static final String ARG_CART = "cart";
@@ -73,6 +76,11 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
         adapter = new ShoppingCartRecyclerAdapter(getActivity(), mList, this);
         shoppingCartRecyclerView.setAdapter(adapter);
 
+        sCart.setCart(mList);
+        sCart.getSubtotal();
+        sCart.getTax();
+        sCart.getTotal();
+        sCart.getPoints();
         updateView();
         //build sCart using mList?
         System.out.println("Contents of sCart (shoppingCart): " + sCart);

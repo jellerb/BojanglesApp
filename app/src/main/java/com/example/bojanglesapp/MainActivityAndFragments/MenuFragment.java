@@ -3,9 +3,8 @@
 // ITCS 6112 - 051
 // Stephanie Karp, Wes Wotring, Jason Ellerbeck
 
-package com.example.bojanglesapp;
+package com.example.bojanglesapp.MainActivityAndFragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -16,23 +15,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.bojanglesapp.Objects.MenuItem;
+import com.example.bojanglesapp.R;
+import com.example.bojanglesapp.Objects.ShoppingCart;
 import com.example.bojanglesapp.databinding.FragmentMenuBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MenuFragment extends Fragment {
 
@@ -41,28 +38,28 @@ public class MenuFragment extends Fragment {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private FirestoreRecyclerAdapter<MenuItem, MenuItemHolder> adapter;
 
-    private static final String ARG_SHOPPING_CART = "shoppingCart";
+//    private static final String ARG_SHOPPING_CART = "shoppingCart";
 
     ShoppingCart shoppingCart;
     ArrayList<MenuItem> mList;
 
-    public static MenuFragment newInstance(ShoppingCart shoppingCart) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_SHOPPING_CART, shoppingCart);
-        MenuFragment fragment = new MenuFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static MenuFragment newInstance(ShoppingCart shoppingCart) {
+//        Bundle args = new Bundle();
+//        args.putSerializable(ARG_SHOPPING_CART, shoppingCart);
+//        MenuFragment fragment = new MenuFragment();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     //onCreate --> code that is ran first
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments() != null) {
-            //brings in shopping cart
-            this.shoppingCart = (ShoppingCart) getArguments().getSerializable(ARG_SHOPPING_CART);
-            this.mList = shoppingCart.getCart();
-        }
+//        if(getArguments() != null) {
+//            //brings in shopping cart
+//            this.shoppingCart = (ShoppingCart) getArguments().getSerializable(ARG_SHOPPING_CART);
+//            this.mList = shoppingCart.getCart();
+//        }
     }
 
     @Override
