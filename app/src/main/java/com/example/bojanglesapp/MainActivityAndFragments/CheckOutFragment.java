@@ -41,6 +41,7 @@ public class CheckOutFragment extends Fragment {
     FirebaseUser firebaseUser = mAuth.getCurrentUser();
     DocumentReference docRef;
     Order order = new Order();
+    double userPoints;
 
     public CheckOutFragment() {}
 
@@ -83,6 +84,7 @@ public class CheckOutFragment extends Fragment {
                 String nameResult = task.getResult().getString("displayName");
                 String emailResult = task.getResult().getString("Email");
                 String paymentResult = task.getResult().getString("Payment");
+                double pointsResult = task.getResult().getDouble("Points");
 
                 binding.accountNameTextViewAccount.setText(nameResult);
                 binding.textViewUserEmail.setText(emailResult);
@@ -93,6 +95,7 @@ public class CheckOutFragment extends Fragment {
                 order.setCustomerPayment(paymentResult);
                 order.setCart(sCart);
                 order.setPointsGained(points);
+                userPoints = pointsResult;
             } else {
                 Log.d("whatever", "get failed with", task.getException());
             }
@@ -109,8 +112,11 @@ public class CheckOutFragment extends Fragment {
         binding.textViewUserPoints.setText(dfNoDecimal.format(points));
 
         binding.buttonCheckOut.setOnClickListener(v -> {
+            double newPoints = userPoints + order.getPointsGained();
             order.setOrderedAt();
             cListener.placeOrder(order);
+            cListener.updateUserPoints(newPoints);
+            System.out.println("User's total points are now:" + newPoints);
         });
     }
 
@@ -124,5 +130,6 @@ public class CheckOutFragment extends Fragment {
 
     interface CheckOutListener {
         void placeOrder(Order order);
+        void updateUserPoints(double points);
     }
 }

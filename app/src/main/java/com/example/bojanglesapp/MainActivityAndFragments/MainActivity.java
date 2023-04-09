@@ -7,6 +7,7 @@ package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -354,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                                 .show();
                         return;
                     }
-                    System.out.println("Order placed:" + order.toString());
+                    System.out.println("Order placed:" + order);
                     goConfirmationPage(order);
                 });
     }
@@ -425,6 +427,14 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                             .addToBackStack(null)
                             .commit();
                 });
+    }
+
+    public void updateUserPoints(double points) {
+        DocumentReference userRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+        userRef
+                .update("Points", points)
+                .addOnSuccessListener(unused -> Log.d("demo", "User points updated."))
+                .addOnFailureListener(e -> Log.d("demo", "Error updating points.", e));
     }
 }
 
