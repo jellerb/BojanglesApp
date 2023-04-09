@@ -1,3 +1,8 @@
+// Bojangles Application
+// BoBerry Biscuits - Group 16
+// ITCS 6112 - 051
+// Stephanie Karp, Wes Wotring, Jason Ellerbeck
+
 package com.example.bojanglesapp.Objects;
 
 import java.io.Serializable;
@@ -9,10 +14,7 @@ public class MenuItem implements Serializable {
     public String ingredients;
     public int calories;
 
-
     public MenuItem() {}
-
-
 
     public MenuItem(String itemName, double itemPrice, String ingredients, int calories) {
         this.name = itemName;

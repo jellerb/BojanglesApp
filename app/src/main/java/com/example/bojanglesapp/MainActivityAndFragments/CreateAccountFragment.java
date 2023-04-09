@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class CreateAccountFragment extends Fragment {
 
     FragmentCreateAccountBinding binding;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class CreateAccountFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCreateAccountBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }

@@ -1,3 +1,8 @@
+// Bojangles Application
+// BoBerry Biscuits - Group 16
+// ITCS 6112 - 051
+// Stephanie Karp, Wes Wotring, Jason Ellerbeck
+
 package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Context;
@@ -32,9 +37,7 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
     LinearLayoutManager layoutManager;
     ArrayList<MenuItem> mList;
 
-    public ShoppingCartFragment() {
-        // Required empty public constructor
-    }
+    public ShoppingCartFragment() {}
 
     public static ShoppingCartFragment newInstance(ShoppingCart sCart) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -51,8 +54,6 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
         if (getArguments() != null) {
             this.sCart = (ShoppingCart) getArguments().getSerializable(ARG_CART);
             mList = sCart.getCart();
-
-            System.out.println("Entering Shopping Cart.");
         }
     }
 
@@ -82,9 +83,6 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
         sCart.getTotal();
         sCart.getPoints();
         updateView();
-        //build sCart using mList?
-        System.out.println("Contents of sCart (shoppingCart): " + sCart);
-        System.out.println("SCF - Price Total: " + sCart.getTotal());
 
         binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut(sCart));
     }
@@ -93,7 +91,6 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
 
     private void updateView() {
         DecimalFormat df = new DecimalFormat("0.00");
-
         binding.textViewSubtotal.setText(df.format(sCart.getSubtotal()));
         binding.textViewTax.setText(df.format(sCart.getTax()));
         binding.textViewTotal.setText(df.format(sCart.getTotal()));

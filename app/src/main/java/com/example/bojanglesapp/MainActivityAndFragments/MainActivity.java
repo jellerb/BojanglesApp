@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener, CheckOutFragment.CheckOutListener {
+public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener, CheckOutFragment.CheckOutListener, OrderConfirmationFragment.OrderConfirmationListener, OrderHistoryFragment.OrderHistoryListener, OrderHistoryDetailedViewFragment.OrderConfirmationListener {
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private ArrayList<com.example.bojanglesapp.Objects.MenuItem> sList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -55,12 +55,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Button toolBarButton = findViewById(R.id.buttonToolbarShoppingCart);
-        toolBarButton.setOnClickListener(v ->{
-            //System.out.println("Prior to goTo Call: " + shoppingCart.getCart());
-            //System.out.println("Prior to goTo Call: " + shoppingCart.getSubtotal());
-            //System.out.println("Prior to goToShoppingCart Call no get: " + shoppingCart);
-            goToShoppingCart(shoppingCart);
-        });
+        toolBarButton.setOnClickListener(v -> goToShoppingCart(shoppingCart));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -95,14 +90,8 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             Button button = headerView.findViewById(R.id.logoutButton);
             button.setOnClickListener(v -> logout());
 
-            //Make new shopping cart - function
-//            shoppingCart = new ShoppingCart();
-//            sList = shoppingCart.getCart();
-
-
             // go to menu page
             getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.flContent, MenuFragment.newInstance(shoppingCart))
                     .replace(R.id.flContent, new MenuFragment())
                     .addToBackStack(null)
                     .commit();
@@ -140,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
             case R.id.edit_account:
                 fragmentClass = EditAccountFragment.class;
                 break;
+            case R.id.order_history:
+                fragmentClass = OrderHistoryFragment.class;
+                break;
             default:
                 fragmentClass = MenuFragment.class;
         }
@@ -167,30 +159,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flContent, new ViewAccountFragment())
                 .commit();
-    }
-
-    @Override
-    public void editAccount() {
-//        firebaseFirestore.collection("Users")
-//                        .document(user.getU_id())
-//                                .set(user)
-//                                        .addOnCompleteListener(task -> {
-//                                            if(!task.isSuccessful()){
-//                                               Exception exception = task.getException();
-//                                               assert exception != null;
-//                                               new AlertDialog.Builder(MainActivity.this)
-//                                                       .setTitle("Error")
-//                                                       .setMessage(exception.getLocalizedMessage())
-//                                                       .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
-//                                                       .show();
-//                                               return;
-//                                            }
-//                                            getSupportFragmentManager().beginTransaction()
-//                                                    .replace(R.id.flContent, new LoginFragment())
-//                                                    .addToBackStack(null)
-//                                                    .commit();
-//                                        });
-
     }
 
     @Override
@@ -303,9 +271,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                         .show();
                 return;
             }
-
             firebaseUser = task.getResult().getUser();
-//            currentUser = new User().fi
 
             goToMenu(firebaseUser);
         });
@@ -326,15 +292,11 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.putExtra("user", firebaseUser);
 
-
-
         startActivity(intent);
         finish();
     }
 
     public void goToShoppingCart(ShoppingCart shoppingCart){
-        System.out.println("Going to cart - need to pass cart (334): " + shoppingCart.getCart());
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flContent, ShoppingCartFragment.newInstance(shoppingCart), "shopping cart")
                 .addToBackStack("shopping cart")
@@ -343,20 +305,11 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void addToCart(com.example.bojanglesapp.Objects.MenuItem item) {
-        //In this function we know that a menu item is being added to the shopping cart
-        // can we confirm this within main?
         shoppingCart.addItem(item);
-
-        System.out.println("addToCart " + shoppingCart.getCartSize());
-        System.out.println("addToCart " + shoppingCart.getCart());
     }
 
     @Override
     public void goToMenu() {
-        //Output shows that when user adds item to cart, shopping cart object is being updated
-        System.out.println("Going to menu");
-
-
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.flContent, new MenuFragment(), "menu")
                 .commit();
@@ -364,8 +317,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void goToCheckOut(ShoppingCart shoppingCart) {
-        System.out.println("Going to checkout");
-        //two lines down was the problem - added CheckOutFragment.newInstance(shoppingCart)
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flContent,  CheckOutFragment.newInstance(shoppingCart), "checkout")
                 .commit();
@@ -386,8 +337,6 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
 
     @Override
     public void placeOrder(Order order) {
-
-
         firebaseFirestore
                 .collection("Users")
                 .document(firebaseUser.getUid())
@@ -405,14 +354,77 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                                 .show();
                         return;
                     }
-       //             goConfirmationPage();
+                    System.out.println("Order placed:" + order.toString());
+                    goConfirmationPage(order);
                 });
     }
 
-    public void goConfirmationPage() {
-        // pull order
-        // send to confirmation page
-        // print information on confirmation page
+    public void goConfirmationPage(Order order) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, OrderConfirmationFragment.newInstance(order), "confirmation")
+                .commit();
+    }
+
+    @Override
+    public void seeOrderDetails(Order selectedOrder) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, OrderHistoryDetailedViewFragment.newInstance(selectedOrder), "detailedHistory")
+                .addToBackStack("detailedHistory")
+                .commit();
+    }
+
+    @Override
+    public void updateOrderHistory(Order order) {
+        firebaseFirestore
+                .collection("Users")
+                .document(firebaseUser.getUid())
+                .collection("Orders")
+                .document(order.getOrderId())
+                .set(order)
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Exception exception = task.getException();
+                        assert exception != null;
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("An Error Occurred")
+                                .setMessage(exception.getLocalizedMessage())
+                                .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
+                                .show();
+                    }
+                });
+    }
+
+    @Override
+    public void goToOrderHistory() {
+        getSupportFragmentManager()
+                .popBackStack("detailedHistory", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
+    public void updateOrder(Order order) {
+        firebaseFirestore
+                .collection("Users")
+                .document(firebaseUser.getUid())
+                .collection("Orders")
+                .document(order.getOrderId())
+                .set(order)
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Exception exception = task.getException();
+                        assert exception != null;
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("An Error Occurred")
+                                .setMessage(exception.getLocalizedMessage())
+                                .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
+                                .show();
+                        return;
+                    }
+
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.flContent, OrderHistoryDetailedViewFragment.newInstance(order))
+                            .addToBackStack(null)
+                            .commit();
+                });
     }
 }
 

@@ -1,3 +1,8 @@
+// Bojangles Application
+// BoBerry Biscuits - Group 16
+// ITCS 6112 - 051
+// Stephanie Karp, Wes Wotring, Jason Ellerbeck
+
 package com.example.bojanglesapp.Objects;
 
 import java.io.Serializable;
@@ -13,10 +18,12 @@ public class Order implements Serializable {
     private String customerPayment;
     private Timestamp orderedAt;
     private double pointsGained;
+    private boolean favoriteStatus;
 
 
     public Order() {
         this.orderId = UUID.randomUUID().toString();
+        this.favoriteStatus = false;
     }
 
     public Order(String orderId, ShoppingCart cart, String customerName, String customerEmail, String customerPayment, Timestamp orderedAt, double pointsGained) {
@@ -27,6 +34,7 @@ public class Order implements Serializable {
         this.customerPayment = customerPayment;
         this.orderedAt = orderedAt;
         this.pointsGained = pointsGained;
+        this.favoriteStatus = false;
     }
 
     public Order(ShoppingCart cart, String customerName, String customerEmail, String customerPayment, double pointsGained) {
@@ -37,6 +45,15 @@ public class Order implements Serializable {
         this.customerPayment = customerPayment;
         this.pointsGained = pointsGained;
         this.orderedAt = Timestamp.now();
+        this.favoriteStatus = false;
+    }
+
+    public boolean favoriteStatus() {
+        return favoriteStatus;
+    }
+
+    public void setFavorite(boolean status) {
+        favoriteStatus = status;
     }
 
     public String getOrderId() {
@@ -105,6 +122,7 @@ public class Order implements Serializable {
                 ", customerPayment='" + customerPayment + '\'' +
                 ", orderedAt=" + orderedAt +
                 ", pointsGained=" + pointsGained +
+                ", favoriteStatus=" + favoriteStatus +
                 '}';
     }
 }

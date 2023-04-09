@@ -1,4 +1,11 @@
+// Bojangles Application
+// BoBerry Biscuits - Group 16
+// ITCS 6112 - 051
+// Stephanie Karp, Wes Wotring, Jason Ellerbeck
+
 package com.example.bojanglesapp.Objects;
+
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,14 +62,12 @@ public class ShoppingCart implements Serializable {
     }
 
     public double getTax() {
-        this.tax = 0;
         //calculating off of NC DOR tax of 2%
         this.tax = this.subtotal * .02;
         return tax;
     }
 
     public double getTotal() {
-        this.total = 0;
         this.total = this.subtotal + this.tax;
         return total;
     }
@@ -79,6 +84,7 @@ public class ShoppingCart implements Serializable {
         this.total = total;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ShoppingCart{" +

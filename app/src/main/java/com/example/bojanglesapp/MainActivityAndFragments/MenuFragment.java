@@ -34,33 +34,12 @@ import java.util.ArrayList;
 public class MenuFragment extends Fragment {
 
     FragmentMenuBinding binding;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private FirestoreRecyclerAdapter<MenuItem, MenuItemHolder> adapter;
-
-//    private static final String ARG_SHOPPING_CART = "shoppingCart";
-
-    ShoppingCart shoppingCart;
     ArrayList<MenuItem> mList;
 
-//    public static MenuFragment newInstance(ShoppingCart shoppingCart) {
-//        Bundle args = new Bundle();
-//        args.putSerializable(ARG_SHOPPING_CART, shoppingCart);
-//        MenuFragment fragment = new MenuFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
-    //onCreate --> code that is ran first
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if(getArguments() != null) {
-//            //brings in shopping cart
-//            this.shoppingCart = (ShoppingCart) getArguments().getSerializable(ARG_SHOPPING_CART);
-//            this.mList = shoppingCart.getCart();
-//        }
-    }
+    public void onCreate(@Nullable Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

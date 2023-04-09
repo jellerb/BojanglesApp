@@ -1,3 +1,8 @@
+// Bojangles Application
+// BoBerry Biscuits - Group 16
+// ITCS 6112 - 051
+// Stephanie Karp, Wes Wotring, Jason Ellerbeck
+
 package com.example.bojanglesapp.MainActivityAndFragments;
 
 import android.content.Context;
@@ -37,9 +42,7 @@ public class CheckOutFragment extends Fragment {
     DocumentReference docRef;
     Order order = new Order();
 
-    public CheckOutFragment() {
-        // Required empty public constructor
-    }
+    public CheckOutFragment() {}
 
     public static CheckOutFragment newInstance(ShoppingCart sCart) {
         CheckOutFragment fragment = new CheckOutFragment();
@@ -52,17 +55,13 @@ public class CheckOutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Entering Checkout");
 
         if (getArguments() != null) {
-            System.out.println("Entering Checkout pt2 - argument?");
             this.sCart = (ShoppingCart) getArguments().getSerializable(ARG_CART);
             this.total = sCart.getTotal();
             this.tax = sCart.getTax();
             this.subtotal = sCart.getSubtotal();
             this.points = sCart.getPoints();
-
-            System.out.println("Inside CheckOutFragment - sCart: " + this.sCart);
         }
     }
 
@@ -75,29 +74,12 @@ public class CheckOutFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         requireActivity().setTitle(R.string.check_out_label);
 
         docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
 
         docRef.get().addOnCompleteListener(task -> {
             if(task.getResult().exists()){
-                System.out.println("Inside docRef for assignments");
-
-                //BIG PROBLEM:
-                /*this whole docRef jazz is returning a promise, meaning that code below
-                this "function" (i.e. code after ~line 118) will be executed prior to this information
-                being gathered from database. This means that the button can be pressed aswell before
-                finishing.
-                SOLUTION 1:
-                    Find Java packages to handle asynchronous code via async, await functions..
-                SOLUTION 2 (easier?):
-                    Only utilize order within this if statement (this is limiting). This would
-                    include the button
-
-                If you have not seen this before, it is tricky and annoying. I'm leaving the
-                prints to show you how/why this is happening. Cart is here tho.
-                */
                 String nameResult = task.getResult().getString("displayName");
                 String emailResult = task.getResult().getString("Email");
                 String paymentResult = task.getResult().getString("Payment");
@@ -111,18 +93,14 @@ public class CheckOutFragment extends Fragment {
                 order.setCustomerPayment(paymentResult);
                 order.setCart(sCart);
                 order.setPointsGained(points);
-
-                System.out.println("Inside DocRef Order: " + order);
-                System.out.println("Inside DocRef Order.getCart: " + order.getCart());
             } else {
                 Log.d("whatever", "get failed with", task.getException());
             }
-
         });
 
         DecimalFormat dfDecimal = new DecimalFormat("0.00");
         DecimalFormat dfNoDecimal = new DecimalFormat("#");
-        dfDecimal.setRoundingMode(RoundingMode.DOWN);
+        dfNoDecimal.setRoundingMode(RoundingMode.DOWN);
 
         binding.textViewSubtotal.setText(dfDecimal.format(subtotal));
         binding.textViewTax.setText(dfDecimal.format(tax));
@@ -130,14 +108,10 @@ public class CheckOutFragment extends Fragment {
 
         binding.textViewUserPoints.setText(dfNoDecimal.format(points));
 
-        System.out.println("Order outside docRef: " + order);
-        System.out.println("Order.getCart() outside docRef: " + order.getCart());
-
         binding.buttonCheckOut.setOnClickListener(v -> {
             order.setOrderedAt();
             cListener.placeOrder(order);
         });
-
     }
 
     CheckOutListener cListener;

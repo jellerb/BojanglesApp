@@ -26,14 +26,11 @@ public class MenuItemFragment extends Fragment {
 
     private MenuItem item;
 
-    public MenuItemFragment() {
-        // Required empty public constructor
-    }
+    public MenuItemFragment() {}
 
     public static MenuItemFragment newInstance(MenuItem item) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_ITEM, item);
-
         MenuItemFragment fragment = new MenuItemFragment();
         fragment.setArguments(args);
         return fragment;
@@ -63,7 +60,6 @@ public class MenuItemFragment extends Fragment {
         binding.textViewIngredients.setText(item.getIngredients());
         binding.textViewCalories.setText(String.valueOf(item.getCalories()));
         binding.buttonAddToCart.setOnClickListener(v -> {
-
             mListener.addToCart(item);
             mListener.goToMenu();
         });

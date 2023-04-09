@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class ViewAccountFragment extends Fragment {
@@ -59,7 +60,9 @@ public class ViewAccountFragment extends Fragment {
                 String passwordResult = task.getResult().getString("Password");
                 String paymentResult = task.getResult().getString("Payment");
                 double pointsResult = task.getResult().getDouble("Points");
+
                 DecimalFormat df = new DecimalFormat("#");
+                df.setRoundingMode(RoundingMode.DOWN);
 
                 binding.accountNameTextViewAccount.setText(nameResult);
                 binding.textViewUserEmail.setText(emailResult);
@@ -71,14 +74,10 @@ public class ViewAccountFragment extends Fragment {
             }
         });
 
-        binding.buttonGoToEditAccount.setOnClickListener(v -> {
-            mListener.goToEditAccount();
-         } //end of the buttonClickListener
+        binding.buttonGoToEditAccount.setOnClickListener(v -> {mListener.goToEditAccount();}
         );
 
-        binding.buttonLogout.setOnClickListener(v -> {
-                    mListener.logout();
-                } //end of the buttonClickListener
+        binding.buttonLogout.setOnClickListener(v -> {mListener.logout();}
         );
         }
     ViewAccountFragment.ViewAccountListener mListener;

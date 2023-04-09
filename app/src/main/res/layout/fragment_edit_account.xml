@@ -8,6 +8,17 @@
     android:background="#FDDA02"
     tools:context=".MainActivityAndFragments.EditAccountFragment">
 
+    <ImageView
+        android:id="@+id/boLogoImage2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/bojangles"
+        android:src="@drawable/bo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <EditText
         android:id="@+id/editTextAccountPayment"
         android:layout_width="0dp"
@@ -103,7 +114,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:text="Account Name:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

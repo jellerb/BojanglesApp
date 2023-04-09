@@ -3,11 +3,11 @@
     <string name="submit_label">Submit</string>
     <string name="not_you">Not your account?</string>
     <string name="edit">Submit Edit</string>
-    <string name="payment_label">Credit Card Number</string>
+    <string name="payment_label">Credit Card Number:</string>
     <string name="cancel_label">Cancel</string>
-    <string name="name_label">Full Name</string>
+    <string name="name_label">Full Name:</string>
     <string name="Reward_label">BoWards Points:</string>
-    <string name="email_label">Email</string>
+    <string name="email_label">Email:</string>
     <string name="password_label">Password</string>
     <string name="login_label">Login</string>
     <string name="logout_label">Logout</string>
@@ -35,6 +35,13 @@
     <string name="return_to_menu">Return To Menu</string>
     <string name="order_now">Order Now</string>
     <string name="points_gained">Points earned:</string>
+    <string name="order_confirmed">Order Confirmed!</string>
+    <string name="order_confirmed_label">Order Confirmation</string>
+    <string name="order_placed">Order placed:</string>
+    <string name="order_history">Order History</string>
+    <string name="favorite">Favorite</string>
+    <string name="return_to_order_history">Return To Order History</string>
+    <string name="bojangles">Bojangles</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

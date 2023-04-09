@@ -10,4 +10,6 @@
     <color name="boRed">#CE191B</color>
     <color name="boRedTransparent">#70CE191B</color>
     <color name="boYellow">#FDDA02</color>
+    <color name="boYellowTransparent">#60FDDA02</color>
+
 </resources>
