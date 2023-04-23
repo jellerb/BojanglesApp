@@ -42,7 +42,7 @@ public class MenuFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMenuBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -50,7 +50,6 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         requireActivity().setTitle(R.string.menu_label);
 
         binding.menuItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -92,6 +91,7 @@ public class MenuFragment extends Fragment {
         void setItemName(String name, double price, String ingredients, int calories) {
             TextView textView = view.findViewById(R.id.textViewMenuItemName);
             textView.setText(name);
+            // allow user to tap an item to view it directly in the Menu Item fragment
             itemView.setOnClickListener(view ->
                     mListener.goToMenuItem(name, price, ingredients, calories));
         }

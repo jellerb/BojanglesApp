@@ -40,7 +40,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements MenuFragment.MenuListener, EditAccountFragment.EditAccountListener, ViewAccountFragment.ViewAccountListener, LoginFragment.LoginListener, CreateAccountFragment.CreateAccountListener, MenuItemFragment.MenuItemListener, ShoppingCartFragment.ShoppingCartListener, CheckOutFragment.CheckOutListener, OrderConfirmationFragment.OrderConfirmationListener, OrderHistoryFragment.OrderHistoryListener, OrderHistoryDetailedViewFragment.OrderConfirmationListener {
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private ArrayList<com.example.bojanglesapp.Objects.MenuItem> sList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser;
     DrawerLayout mDrawer;
@@ -51,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // pull user information from firebase
         firebaseUser = mAuth.getCurrentUser();
-
+        // set toolbar and side menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Button toolBarButton = findViewById(R.id.buttonToolbarShoppingCart);
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mDrawer = findViewById(R.id.drawer_layout);
-
+        // side menu settings
         nvDrawer = findViewById(R.id.nvView);
         nvDrawer.setItemIconTintList(null);
         nvDrawer.setHovered(true);
@@ -73,15 +72,15 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_dehaze_24);
         setupDrawerContent(nvDrawer);
-
-        if (mAuth.getCurrentUser() == null) {
+        // see if user is signed in
+        if (mAuth.getCurrentUser() == null) { // if they aren't signed in, go to Login fragment
             // hide action bar
             getSupportActionBar().hide();
             // go to login page
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.flContent, new LoginFragment())
                     .commit();
-        } else {
+        } else { // if they are signed in, go to Menu fragment
             // set user info in nav menu
             View headerView = nvDrawer.getHeaderView(0);
             TextView userName = headerView.findViewById(R.id.userName);
@@ -118,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
         );
     }
 
+    // this is the logic for sending the user to whichever page they choose from the side menu
     public void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Class fragmentClass;
@@ -332,8 +332,7 @@ public class MainActivity extends AppCompatActivity implements MenuFragment.Menu
                 .popBackStack("shopping cart", FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         if (fragment != null) {
-            this.sList = mList;
-            fragment.updateShoppingCart(sList);
+            fragment.updateShoppingCart(mList);
         }
     }
 

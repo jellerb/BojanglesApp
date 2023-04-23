@@ -51,7 +51,7 @@ public class OrderHistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentOrderHistoryBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -60,7 +60,7 @@ public class OrderHistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         requireActivity().setTitle(R.string.order_history);
-
+        // scrollable list showing previous orders
         binding.ordersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Query query = firebaseFirestore
@@ -106,6 +106,7 @@ public class OrderHistoryFragment extends Fragment {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyy hh:mm a", Locale.getDefault());
             String dateFormatted = sdf.format(date);
             textView.setText(dateFormatted);
+            // allows user to tap an order to view detailed view of the order in the order history detailed view fragment
             itemView.setOnClickListener(view -> oListener.seeOrderDetails(order));
         }
 
@@ -116,6 +117,7 @@ public class OrderHistoryFragment extends Fragment {
         }
 
         void setOrderFavoriteStatus(Order order) {
+            // favorite button - this has some issues
             buttonFavorite.setOnClickListener(view -> {
                 // if the order IS NOT a favorite, change the icon to filled when clicked
                 if (!order.favoriteStatus()) {

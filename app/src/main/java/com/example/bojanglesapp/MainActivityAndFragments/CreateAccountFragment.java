@@ -39,9 +39,10 @@ public class CreateAccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        requireActivity().setTitle(R.string.sign_up_label);
+        // Cancel Button
         binding.buttonCancel.setOnClickListener(v -> mListener.goToLogin());
-
+        // Signup Button
         binding.buttonSignup.setOnClickListener(v -> {
             String name = binding.editTextCreateName.getText().toString();
             String email = binding.editTextCreateEmail.getText().toString();
@@ -61,8 +62,6 @@ public class CreateAccountFragment extends Fragment {
                 mListener.createAccount(name, email, password, payment, points);
             }
         });
-
-        requireActivity().setTitle(R.string.sign_up_label);
     }
 
     CreateAccountListener mListener;

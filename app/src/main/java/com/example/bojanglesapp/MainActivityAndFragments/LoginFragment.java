@@ -44,8 +44,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
+        requireActivity().setTitle(R.string.login_label);
+        // Login Button
         binding.buttonLogin.setOnClickListener(v -> {
             String email = binding.editTextEmail.getText().toString();
             String password = binding.editTextPassword.getText().toString();
@@ -58,9 +58,8 @@ public class LoginFragment extends Fragment {
                 mListener.authenticate(email, password);
             }
         });
+        // go to Create Account Fragment
         binding.buttonCreateNewAccount.setOnClickListener(v -> mListener.goToSignUp());
-
-        requireActivity().setTitle(R.string.login_label);
     }
 
     LoginListener mListener;

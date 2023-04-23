@@ -23,7 +23,6 @@ public class MenuItemFragment extends Fragment {
 
     FragmentMenuItemBinding binding;
     private static final String ARG_ITEM = "item";
-
     private MenuItem item;
 
     public MenuItemFragment() {}
@@ -59,8 +58,10 @@ public class MenuItemFragment extends Fragment {
         binding.textViewPrice.setText(String.valueOf(item.getItemPrice()));
         binding.textViewIngredients.setText(item.getIngredients());
         binding.textViewCalories.setText(String.valueOf(item.getCalories()));
+        // Add to cart button
         binding.buttonAddToCart.setOnClickListener(v -> {
             mListener.addToCart(item);
+            // once item has been added to the cart, return the user to the Menu fragment
             mListener.goToMenu();
         });
     }

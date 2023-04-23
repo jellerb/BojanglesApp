@@ -58,7 +58,7 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentShoppingCartBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -83,12 +83,12 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
         sCart.getTotal();
         sCart.getPoints();
         updateView();
-
+        // Checkout Button
         binding.buttonCheckOut.setOnClickListener(v -> sListener.goToCheckOut(sCart));
     }
 
     ShoppingCartListener sListener;
-
+    // update the page if an item is removed from the cart
     private void updateView() {
         DecimalFormat df = new DecimalFormat("0.00");
         binding.textViewSubtotal.setText(df.format(sCart.getSubtotal()));
@@ -107,8 +107,10 @@ public class ShoppingCartFragment extends Fragment implements ShoppingCartRecycl
         mList.remove(chosenMenuItem);
 
         if ((mList.isEmpty())) {
+            // set text on shopping cart page to 0
+            updateView();
+            // return user to Menu fragment
             sListener.emptyCartReturnToMenu(mList);
-            //set text on shopping cart page to 0
         } else {
             adapter.notifyItemRemoved(chosenMenuItem);
             updateView();

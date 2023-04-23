@@ -40,7 +40,7 @@ public class ViewAccountFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentViewAccountBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -73,13 +73,11 @@ public class ViewAccountFragment extends Fragment {
                 Log.d("whatever", "get failed with", task.getException());
             }
         });
-
-        binding.buttonGoToEditAccount.setOnClickListener(v -> {mListener.goToEditAccount();}
-        );
-
-        binding.buttonLogout.setOnClickListener(v -> {mListener.logout();}
-        );
-        }
+        // Edit account button
+        binding.buttonGoToEditAccount.setOnClickListener(v -> {mListener.goToEditAccount();});
+        // Logout button
+        binding.buttonLogout.setOnClickListener(v -> {mListener.logout();});
+    }
     ViewAccountFragment.ViewAccountListener mListener;
 
     public void onAttach(@NonNull Context context) {

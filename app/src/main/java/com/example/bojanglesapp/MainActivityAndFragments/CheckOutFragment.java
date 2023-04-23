@@ -67,7 +67,7 @@ public class CheckOutFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCheckOutBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -76,7 +76,7 @@ public class CheckOutFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         requireActivity().setTitle(R.string.check_out_label);
-
+        // get user info to display on the screen
         docRef = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
 
         docRef.get().addOnCompleteListener(task -> {
@@ -110,13 +110,12 @@ public class CheckOutFragment extends Fragment {
         binding.textViewTotal.setText(dfDecimal.format(total));
 
         binding.textViewUserPoints.setText(dfNoDecimal.format(points));
-
+        // Checkout Button
         binding.buttonCheckOut.setOnClickListener(v -> {
             double newPoints = userPoints + order.getPointsGained();
             order.setOrderedAt();
             cListener.placeOrder(order);
             cListener.updateUserPoints(newPoints);
-            System.out.println("User's total points are now:" + newPoints);
         });
     }
 
